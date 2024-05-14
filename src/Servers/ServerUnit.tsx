@@ -11,14 +11,15 @@ interface ServerUnitProps {
 }
 
 const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
-  const [serverErr, setServerErr] = useState<boolean>(true)
+  const [serverErr, setServerErr] = useState<boolean>(false)
   const navigate = useNavigate()
 
 
 
-  console.log(server)
   const stringToNum = (string) => Number(string.substring(0, string.length - 1))
-  const arr = server.dsArray.map((string: string) => string.split(' ').filter(str => str !== '')).slice(1)
+  console.log(server)
+
+  const arr = server.instances[0]?.data.dsArray.map((string: string) => string.split(' ').filter(str => str !== '')).slice(1)
   const diskObj = arr.map(([fileSystem, size, used, avail, use, mountedOn]) => ({ fileSystem, size, used, avail, use, mountedOn }))
   const withUse = diskObj.filter(disk =>  stringToNum(disk.use) >= 0).sort((a,b) => stringToNum(b.use) - stringToNum(a.use))
 
@@ -29,12 +30,12 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     <Box className='server-container'
       height={height} style={{ borderTop: `20px solid ${borderColor}` }}
     >
-      {server?.server}
+
 
       <Box mb={3} className='xsb'>
         <Box display='flex' alignItems='center'>
           <Status status={serverErr} mr={8} />
-          <p className='server-title'>Server Name</p>
+          <p className='server-title'>{server.server}</p>
         </Box>
         <BellIcon className='bell-icon'/>
       </Box>
@@ -54,24 +55,24 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       </Box>
 
       {serverMode &&
-        <>
-          <Box my={10}>
-            <p className='bold'> Database</p>
-            <p>{server.databaseURL}</p>
-          </Box>
-          <Box my={10}>
-            <p  className='bold'> Input</p>
-            <p>{server.inputDir}</p>
-          </Box>
-          <Box my={10}>
-            <p  className='bold'>Historical</p>
-            <p>{server.historicalDir}</p>
-          </Box>
-          <Box my={10}>
-            <p  className='bold'>Output</p>
-            <p>{server.outputDir}</p>
-          </Box>
-        </>
+      <>
+        <Box my={10}>
+          <p className='bold'> Database</p>
+          <p>{server.databaseURL}</p>
+        </Box>
+        <Box my={10}>
+          <p  className='bold'> Input</p>
+          <p>{server.inputDir}</p>
+        </Box>
+        <Box my={10}>
+          <p  className='bold'>Historical</p>
+          <p>{server.historicalDir}</p>
+        </Box>
+        <Box my={10}>
+          <p  className='bold'>Output</p>
+          <p>{server.outputDir}</p>
+        </Box>
+      </>
       }
 
       <p className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</p>

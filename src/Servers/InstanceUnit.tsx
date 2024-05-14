@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom'
 interface InstanceUnitProps {
   instance: any;
   setSelected: any;
-  server: any;
 }
 
 const InstanceUnit = ({  instance, setSelected }: InstanceUnitProps) => {
@@ -15,13 +14,13 @@ const InstanceUnit = ({  instance, setSelected }: InstanceUnitProps) => {
   const navigate = useNavigate()
   const border = instanceErr ? 'rgba(206, 69, 69,0.8)' : 'rgba(36, 36, 36, 0.9)'
 
+  console.log(instance)
 
   const checkInstance = async () => {
     try {
       const req = (await axios.get('https://echo.radleypropertysolutions.com/test')).status
       req === 200 && setInstanceErr(false)
     } catch (err) {
-      // console.log(err)
       setInstanceErr(true)
     }
   }
@@ -38,26 +37,25 @@ const InstanceUnit = ({  instance, setSelected }: InstanceUnitProps) => {
       
       <Box display='flex' alignItems='center' mb={10}>
         <Status status={instanceErr} mr={8} />
-        <p style={{ fontSize: '1.1em', fontWeight: 700 }}>Instance Name</p>
+        <p style={{ fontSize: '1.1em', fontWeight: 700 }}>{instance.title}</p>
       </Box>
 
-      <Box className='drives-values' flexGrow={1}>
-
+      <Box  flexGrow={1}>
         <Box className='xsb'>
-          <p> Name : </p>
-          <p>{instance.name}</p>
+          <p>historicalDir:</p>
+          <p>{instance.data.historicalDir}</p>
         </Box>
         <Box className='xsb'>
-          <p> Input : </p>
-          <p>{instance.input}</p>
+          <p>inputDir</p>
+          <p>{instance.data.inputDir}</p>
         </Box>
         <Box className='xsb'>
-          <p> History : </p>
-          <p>{instance.history}</p>
+          <p>outputDir</p>
+          <p>{instance.data.outputDir}</p>
         </Box>
-        <Box className='xsb'>
-          <p> Database : </p>
-          <p>{instance.database}</p>
+        <Box mt={10}>
+          <p>databaseURL</p>
+          <p>{instance.data.databaseURL}</p>
         </Box>
       </Box>
       

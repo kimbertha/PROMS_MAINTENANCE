@@ -32,4 +32,11 @@ export const dataObj = [{
     title: 'Test',
     url: 'https://aig-cold.radleypropertysolutions.com/amdev/promsrest/getmpaneldata'
   }]
+},
+{
+  server: 'Cold',
+  instances: [{
+    title: 'Test',
+    url: 'https://aig-cold.radleypropertysolutions.com/amdev/promsrest/getmpaneldata'
+  }]
 }]

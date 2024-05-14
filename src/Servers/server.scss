@@ -25,7 +25,7 @@ $headerHeight: 50px;
 
 .container {
   height: 100%;
-  background-color: #f5f7f9;
+  // background-color: #f5f7f9;
 }
 
 //HEADER
@@ -80,7 +80,7 @@ $headerHeight: 50px;
 %unit-container {
   display: flex;
   flex-direction: column;
-  min-width: $unitWidth;
+  width: $unitWidth;
   background-color: white;
   // background-image: url('../assets/PROMS-Logo-RGB.png' );
   border: 2px solid grey;
@@ -89,6 +89,7 @@ $headerHeight: 50px;
   margin: 10px;
   padding: 10px;
   font-size: 0.8em;
+  line-break: anywhere;
 
   .expand {
     font-size: 10px;

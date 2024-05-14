@@ -22,44 +22,27 @@ const Servers = ({ setSelected }) => {
   const [searchValue, setSearchValue] = useState('')
 
 
-
   const constructData = async () => {
-    const arr: any = [...dataObj]
-
-    arr.forEach((server, serverIndex) => {
-      server.instances.map(async (instance, instanceIndex) => {
-        try {
-          const info = (await axios.get(instance.url, headers)).data
-          arr[serverIndex].instances[instanceIndex] = { ...instance, info }
-
-          if (instanceIndex === server.instances.length - 1) {
-            arr[serverIndex] = { ...server, drives: info.dsArray }
+    const obj = await Promise.all( dataObj.map(async server => ({
+      ...server, instances: 
+        await Promise.all(server.instances.map(async instance => {
+          try {
+            const req = (await axios.get(instance.url, headers)).data
+            return { ...instance, data: req }
+          } catch (err) {
+            console.log(err)
           }
+          
+        }))
+    })))
 
-        } catch (err) {
-          console.log(err)
-        }
-        
-      })
-    })
+    setServerData(obj)
   }
 
-
-  const constructDataTest = async () => {
-    const arr: any = [...dataObj]
-    await arr.forEach(async (server, serverIndex) => {
-      await server.instances.map(async (instance, instanceIndex) => {
-        const { data } = await axios.get(instance.url, headers)
-        arr[serverIndex].instances[instanceIndex] = { ...instance, data, testing: 'fdlkgnkdfjgnkjsn'  }
-      })
-    })
-    setServerData(arr)
-  }
-
-  console.log(serverData[0]?.instances[0].data)
+  console.log(serverData)
 
   useEffect(() => {
-    constructDataTest()
+    constructData()
   }, [])
 
 
@@ -80,16 +63,16 @@ const Servers = ({ setSelected }) => {
       <Box className='content' display={!serverMode ? 'block' : 'flex'} flexGrow={1}>
         {serverData?.map((server: any, i: number) =>
           <Box key={i} display='flex'>
-            {/* <ServerUnit server={server} serverMode={serverMode} /> */}
+            <ServerUnit server={server} serverMode={serverMode} />
 
-            {/* {!serverMode &&
+            {!serverMode &&
               <Box overflow='scroll' display='flex'>
-                {server.instances.map((instance, i) => console.log(instance)
-                  // <InstanceUnit instance={instance} key={i} setSelected={setSelected} />
+                {server.instances.map((instance, i) => 
+                  <InstanceUnit instance={instance} key={i} setSelected={setSelected} />
                 )
                 }
               </Box>
-            } */}
+            }
         
           </Box>
         )}
