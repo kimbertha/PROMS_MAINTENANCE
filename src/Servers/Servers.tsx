@@ -16,7 +16,6 @@ const fi = {
 
 const Servers = () => {
   const [serverData, setServerData] = useState<any>([])
-  const [serverErr, setServerErr] = useState<boolean>(false)
   const [serverMode, setServerMode] = useState(false)
 
   const getServerData = async () => {
@@ -39,28 +38,24 @@ const Servers = () => {
     <Box>
 
       <ServerHeader setServerMode={setServerMode} serverMode={serverMode} />
-      <Box className='content'>
 
-        {!serverMode ?
-          serverData.map((server: any[], i: React.Key | null | undefined) =>
-            <Box key={i} className='server-container' display='flex'>
-              <ServerUnit server={server} serverErr={serverErr} />
+      <Box className='content' display={!serverMode ? 'block' : 'flex'} flexGrow={1}>
+        {serverData.map((server: any, i: number) =>
+          <Box key={i} display='flex'>
+            <ServerUnit server={server} serverMode={serverMode} />
 
-              <Box className='instances-container' display='flex'>
+            {!serverMode &&
+              <Box overflow='scroll' display='flex'>
                 {fakeInstances.map((instance, i) =>
-                  <InstanceUnit key={i} instance={instance} serverErr={false} />)}
+                  <InstanceUnit key={i} instance={instance} />)}
               </Box>
-            </Box>
-          )
-  
-          :
-          <Box display='flex'>
-            {serverData.map((server: any[], i: React.Key | null | undefined) =>
-              <ServerUnit server={server} serverErr={serverErr} />)}
+            }
           </Box>
-        }
-        
+        )}
+  
+      
       </Box>
+
     </Box>
   )
 }

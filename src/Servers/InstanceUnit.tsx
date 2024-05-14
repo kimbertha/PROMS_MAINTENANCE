@@ -1,27 +1,41 @@
-import React from 'react'
+import { useEffect, useState } from 'react'
 import { Box } from '@chakra-ui/react'
+import axios from 'axios'
 import Status from '../components/status/Status'
 import { useNavigate } from 'react-router-dom'
 
 interface InstanceUnitProps {
   instance: any;
-  serverErr: boolean;
 }
 
-
-
-const InstanceUnit = ({ instance, serverErr }: InstanceUnitProps) => {
-  const borderColor = ''
+const InstanceUnit = ({ instance }: InstanceUnitProps) => {
+  const [instanceErr, setInstanceErr] = useState(false)
   const navigate = useNavigate()
+  const border = instanceErr ? 'rgba(206, 69, 69,0.8)' : 'rgba(36, 36, 36, 0.9)'
+
+
+  const checkInstance = async () => {
+    try {
+      const req = (await axios.get('https://echo.radleypropefrtysolutions.com/test')).status
+      req === 200 && setInstanceErr(false)
+    } catch (err) {
+      console.log(err)
+      setInstanceErr(true)
+    }
+  }
+
+  useEffect(() => {
+    checkInstance()
+  }, [])
+  
+
   
   return (
-    <Box className='unit-container' display='flex'
-      flexDirection='column'
-      style={{ borderTop: `15px solid ${serverErr ? 'rgba(206, 69, 69,0.8)' : 'rgba(36, 36, 36, 0.9)'}` }}>
+    <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
       
       <Box display='flex' alignItems='center' mb={10}>
-        <Status status={serverErr} mr={8} />
+        <Status status={instanceErr} mr={8} />
         <p style={{ fontSize: '1.1em', fontWeight: 700 }}>Instance Name</p>
       </Box>
 
