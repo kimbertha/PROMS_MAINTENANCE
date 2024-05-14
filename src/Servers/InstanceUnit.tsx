@@ -50,7 +50,7 @@ const InstanceUnit = ({  instance, setSelected }: InstanceUnitProps) => {
           <p>{instance.data.inputDir}</p>
         </Box>
         <Box className='xsb'>
-          <p>outputDir</p>
+          <p>outputDir.</p>
           <p>{instance.data.outputDir}</p>
         </Box>
         <Box mt={10}>
