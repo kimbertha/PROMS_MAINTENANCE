@@ -2,15 +2,30 @@
 
 @import '../app.scss';
 
+
 $unitWidth:calc(100vw/ 5);
 $padding: 20px;
 $headerHeight: 50px;
 
 
-.container {
-  background-color: #f5f7f9;
-  height: 100%;
+// .background-img{
+//   border: 2px solid red;
+//   height:100%;
+//   position: fixed;
+//   width: 100%;
+//   background-image: url('../assets/PROMS-Logo-RGB.png' );
+//   z-index: -1;
+//   filter: grayscale(100%);
+//   background-repeat: no-repeat;
+//   background-size: cover;
+//   opacity: 0.1;
+//   background-color: #f5f7f9;
+//   background-position:  400px 100px;
+// }
 
+.container {
+  height: 100%;
+  background-color: #f5f7f9;
 }
 
 //HEADER
@@ -43,6 +58,15 @@ $headerHeight: 50px;
       font-size: 0.9em;
     }
   }
+
+  .header-button {
+    border-radius: 10px;
+    background-color: rgb(56, 56, 56);
+    color: white;
+    padding: 4px 10px;
+    font-size: 0.7em;
+
+  }
 }
 
 // SERVER AND INSTANCE
@@ -58,6 +82,7 @@ $headerHeight: 50px;
   flex-direction: column;
   min-width: $unitWidth;
   background-color: white;
+  // background-image: url('../assets/PROMS-Logo-RGB.png' );
   border: 2px solid grey;
   border-top: 20px solid  rgb(36, 36, 36);
   box-sizing: border-box;
@@ -75,8 +100,18 @@ $headerHeight: 50px;
 
 .server-container {
   @extend %unit-container;
+  position: relative;
+
   .server-title {
+    @extend .bold;
     font-size: 1.5em;
+  }
+  
+  .bell-icon{
+    right: 0;
+    color: rgb(133, 13, 13);
+    font-size: 1.5em;
+    cursor: pointer;
   }
 
   .drives-titles {

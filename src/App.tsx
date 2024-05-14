@@ -1,18 +1,17 @@
-import { useState } from 'react'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Servers from './Servers/Servers'
 import Instance from './Instance/Instance'
 import './app.scss'
+import { useState } from 'react'
 
 function App() {
-  const [count, setCount] = useState(0)
-
+  const [selected, setSelected] = useState()
   return (
     <>
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Servers />} />
-          <Route path='/:name' element={<Instance />} />
+          <Route path='/' element={<Servers setSelected={setSelected} />} />
+          <Route path='/:name' element={<Instance instance={selected}/>} />
         </Routes>
       </BrowserRouter>
     </>

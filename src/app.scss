@@ -3,7 +3,6 @@
   margin:0;
   font-family: "Roboto", sans-serif;
   // border:1px solid red;
-
 }
 
 html,body, #root{ 
@@ -12,13 +11,11 @@ html,body, #root{
 }
 
 
-#root {
-  // padding: 0 20px; 
-
-}
-
 .xsb {
   display: flex;
   justify-content: space-between;
 }
 
+.bold {
+  font-weight: 700;
+}

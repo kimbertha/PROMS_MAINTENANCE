@@ -6,9 +6,11 @@ import { useNavigate } from 'react-router-dom'
 
 interface InstanceUnitProps {
   instance: any;
+  setSelected: any;
+  server: any;
 }
 
-const InstanceUnit = ({ instance }: InstanceUnitProps) => {
+const InstanceUnit = ({  instance, setSelected }: InstanceUnitProps) => {
   const [instanceErr, setInstanceErr] = useState(false)
   const navigate = useNavigate()
   const border = instanceErr ? 'rgba(206, 69, 69,0.8)' : 'rgba(36, 36, 36, 0.9)'
@@ -16,10 +18,10 @@ const InstanceUnit = ({ instance }: InstanceUnitProps) => {
 
   const checkInstance = async () => {
     try {
-      const req = (await axios.get('https://echo.radleypropefrtysolutions.com/test')).status
+      const req = (await axios.get('https://echo.radleypropertysolutions.com/test')).status
       req === 200 && setInstanceErr(false)
     } catch (err) {
-      console.log(err)
+      // console.log(err)
       setInstanceErr(true)
     }
   }
@@ -59,7 +61,10 @@ const InstanceUnit = ({ instance }: InstanceUnitProps) => {
         </Box>
       </Box>
       
-      <p className='expand' onClick={() =>navigate(`/${instance.name}`) }>See More...</p>
+      <p className='expand' onClick={() => {
+  
+        navigate(`/${instance.name}`) 
+      } }>See More...</p>
 
     </Box>
   )

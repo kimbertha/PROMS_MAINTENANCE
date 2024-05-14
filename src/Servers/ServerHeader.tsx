@@ -2,13 +2,16 @@
 import { Box, Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/PROMS-Logo-RGB.png'
+import SearchBar from '../components/search/SearchBar'
 
 interface ServerHeaderProps {
   setServerMode: React.Dispatch<React.SetStateAction<boolean>>;
   serverMode: boolean;
+  searchValue: string;
+  setSearchValue: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const ServerHeader = ({ setServerMode, serverMode }:ServerHeaderProps) => {
+const ServerHeader = ({ setServerMode, serverMode, searchValue, setSearchValue }:ServerHeaderProps) => {
   const [show, setShow] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -39,9 +42,11 @@ const ServerHeader = ({ setServerMode, serverMode }:ServerHeaderProps) => {
         </Box>
       </Box>
 
+      
       <Box display='flex' alignItems='center' height='100%'>
-        <Button mr={10}>+ New  Server</Button>
-        <Button>+ New Instance</Button>
+        <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Button className='header-button' mx={15}>+ New  Server</Button>
+        <Button className='header-button'>+ New Instance</Button>
       </Box>
         
     </Box>

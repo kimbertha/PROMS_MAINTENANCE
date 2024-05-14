@@ -6,3 +6,30 @@ export const headers = {
     Authorization: `Bearer ${token}`
   }
 }
+
+
+export const dataObj = [{
+  server: 'Delta',
+  instances: [{
+    title: 'Test',
+    url: 'https://delta.radleypropertysolutions.com/test/promsrest/getmpaneldata'
+  },
+  {
+    title: 'Template',
+    url: 'https://delta.radleypropertysolutions.com/template/promsrest/getmpaneldata'
+  }]
+},
+{
+  server: 'Echo',
+  instances: [{
+    title: 'Test',
+    url: 'https://echo.radleypropertysolutions.com/test/promsrest/getmpaneldata'
+  }]
+},
+{
+  server: 'Cold',
+  instances: [{
+    title: 'Test',
+    url: 'https://aig-cold.radleypropertysolutions.com/amdev/promsrest/getmpaneldata'
+  }]
+}]
