@@ -2,16 +2,17 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Servers from './Servers/Servers'
 import Instance from './Instance/Instance'
 import './app.scss'
-import { useState } from 'react'
+import { Box } from '@chakra-ui/react'
 
 function App() {
-  const [selected, setSelected] = useState()
   return (
     <>
+      <Box className='background-img'/>
+
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Servers setSelected={setSelected} />} />
-          <Route path='/:name' element={<Instance instance={selected}/>} />
+          <Route path='/' element={<Servers/>} />
+          <Route path='/:server/:instance' element={<Instance/>} />
         </Routes>
       </BrowserRouter>
     </>

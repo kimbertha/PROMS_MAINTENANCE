@@ -8,9 +8,24 @@
 html,body, #root{ 
   height:100%;
   max-width: 100vw;
-  background-color: #f5f7f9;
+  // background-color: #f5f7f9;
 }
 
+.background-img{
+  height:100%;
+  position: fixed;
+  width: 100%;
+  background-image: url('./assets//PROMS-Logo-RGB.png' );
+  filter: grayscale(100%);
+  background-repeat: no-repeat;
+  background-size: cover;
+  opacity: 0.04;
+  z-index: -5;
+  background-position:  400px 100px;
+}
+
+
+// misc
 
 .xsb {
   display: flex;
@@ -20,3 +35,5 @@ html,body, #root{
 .bold {
   font-weight: 700;
 }
+
+

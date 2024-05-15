@@ -1,57 +1,64 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect, useState } from 'react'
-import { Box, Button } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
+import { Box } from '@chakra-ui/react'
 import axios from 'axios'
-import { headers, getData, dataObj } from '../api'
+import { headers, dataObj, dataURL } from '../api'
 import ServerUnit from './ServerUnit'
 import InstanceUnit from './InstanceUnit'
 import ServerHeader from './ServerHeader'
 
-const fi = {
-  name: 'test3',
-  input: '/data/test/',
-  history: '/data/test/historical/',
-  database: 'echo_test_nov2019'
-}
-
-
-
-const Servers = ({ setSelected }) => {
+const Servers = () => {
   const [serverData, setServerData] = useState<any>([])
   const [serverMode, setServerMode] = useState(false)
   const [searchValue, setSearchValue] = useState('')
 
 
+  const constructServerData = (dsArray) => {
+    // const drives = dsArray.indexOf('') > 0 ? '' : dsArray
+    // const backups = dsArray.indexOf('BACKUPS') 
+    // const backupOutputs = dsArray.indexOf('BACKUPS_OUTPUTS') 
+
+    const arr = dsArray.map(str => str.split(' ').filter(Boolean)).slice(1)
+    return  arr.map(([fileSystem, size, used, avail, use, mountedOn]) => ({ fileSystem, size, used, avail, use, mountedOn }))
+  }
+
+
   const constructData = async () => {
     const obj = await Promise.all( dataObj.map(async server => ({
-      ...server, instances: 
+      ...server, instances:
         await Promise.all(server.instances.map(async instance => {
           try {
-            const req = (await axios.get(instance.url, headers)).data
-            return { ...instance, data: req }
+            const req = (await axios.get(dataURL(server.id, instance.id), headers)).data
+            return { ...instance, ...req, dsArray: constructServerData(req.dsArray) }
           } catch (err) {
-            console.log(err)
+            return { ...instance, error: err.message }
           }
           
         }))
     })))
-
     setServerData(obj)
   }
 
-  console.log(serverData)
 
   useEffect(() => {
     constructData()
   }, [])
 
 
+  const displayClass = !serverMode ? 'block' : 'flex' 
 
-  // const filtered = searchValue !== '' ? serverData.filter(server => server.serverTitle.toLowerCase().includes(searchValue.toLowerCase())) : serverData
+
+
+  const filtered = searchValue !== '' ?
+    [...serverData].filter(server =>
+      server.instances.some(instance => instance.title.toLowerCase().includes(searchValue.toLowerCase()))
+      || server.title.toLowerCase().includes(searchValue.toLowerCase()))
+    : serverData
+
+    
 
   return (
-    <Box className='container'>
-      <Box className='background-img'/>
+    <Box >
 
       <ServerHeader
         setServerMode={setServerMode}
@@ -60,24 +67,21 @@ const Servers = ({ setSelected }) => {
         setSearchValue={setSearchValue}
       />
 
-      <Box className='content' display={!serverMode ? 'block' : 'flex'} flexGrow={1}>
-        {serverData?.map((server: any, i: number) =>
-          <Box key={i} display='flex'>
+      <Box className='content' display={displayClass} flexGrow={1}>
+        {filtered.map(server =>
+          <Box key={server.id} display='flex'>
             <ServerUnit server={server} serverMode={serverMode} />
 
             {!serverMode &&
               <Box overflow='scroll' display='flex'>
-                {server.instances.map((instance, i) => 
-                  <InstanceUnit instance={instance} key={i} setSelected={setSelected} />
+                {server.instances.map(instance => 
+                  <InstanceUnit server={server.id} instance={instance}  key={instance.id}  />
                 )
                 }
               </Box>
             }
-        
           </Box>
         )}
-  
-      
       </Box>
 
     </Box>

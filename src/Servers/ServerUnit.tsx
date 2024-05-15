@@ -1,9 +1,9 @@
-import { useState }  from 'react'
 import { Box } from '@chakra-ui/react'
 import Status from  '../components/status/Status'
 import './server.scss'
 import { useNavigate } from 'react-router-dom'
 import { BellIcon } from '@chakra-ui/icons'
+import { strToNum } from '../functions'
 
 interface ServerUnitProps {
   server: any;
@@ -11,71 +11,99 @@ interface ServerUnitProps {
 }
 
 const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
-  const [serverErr, setServerErr] = useState<boolean>(false)
   const navigate = useNavigate()
+  
+  const diskObj = server.instances.filter(instance => !instance.error)[0]?.dsArray
 
+  const useValues = diskObj ? 
+    diskObj.filter(drive => drive.fileSystem.includes('/dev') && strToNum(drive.use) >= 0)
+      .sort((a, b) => strToNum(b.use) - strToNum(a.use)) : null
 
-
-  const stringToNum = (string) => Number(string.substring(0, string.length - 1))
-  console.log(server)
-
-  const arr = server.instances[0]?.data.dsArray.map((string: string) => string.split(' ').filter(str => str !== '')).slice(1)
-  const diskObj = arr.map(([fileSystem, size, used, avail, use, mountedOn]) => ({ fileSystem, size, used, avail, use, mountedOn }))
-  const withUse = diskObj.filter(disk =>  stringToNum(disk.use) >= 0).sort((a,b) => stringToNum(b.use) - stringToNum(a.use))
-
+  
   const height = serverMode ? 'auto' : 'calc(100vh/4)' 
-  const borderColor = serverErr ? 'red' : 'rgb(36, 36, 36)'
-
-  return (
-    <Box className='server-container'
-      height={height} style={{ borderTop: `20px solid ${borderColor}` }}
-    >
+  const borderColor = !diskObj ? 'red' : 'rgb(36, 36, 36)'
+  const color = (use) => strToNum(use) > 80 ? 'red' : 'black' 
 
 
-      <Box mb={3} className='xsb'>
-        <Box display='flex' alignItems='center'>
-          <Status status={serverErr} mr={8} />
-          <p className='server-title'>{server.server}</p>
-        </Box>
-        <BellIcon className='bell-icon'/>
-      </Box>
+  const details = [
+    { field: 'fileSystem',
+      title: 'FileSystem' 
+    },
+    { field: 'avail',
+      title: 'Avail' 
+    },
+    { field: 'mountedOn',
+      title: 'Mounted On' 
+    },
+    { field: 'size',
+      title: 'Size' 
+    },
+    { field: 'use',
+      title: 'Use' 
+    },
+    { field: 'used',
+      title: 'Used'
+    }
+  ]
+  
 
+  const instanceMode = (
+    <>
       <Box className='xsb drives-titles'>
         <p>File System</p>
         <p>Used</p>
       </Box>
-
-        
       <Box overflow='scroll' flexGrow={1}>
-        {withUse.map((disk,i) =>
-          <Box key={i} className='xsb'>
+        {useValues.map(disk =>
+          <Box key={disk.fileSystem} className='xsb'>
             <p >{disk.fileSystem}</p>
-            <p style={{ color: stringToNum(disk.use) > 80 ? 'red' : 'black' }}>{disk.use}</p>
+            <p style={{ color: color(disk.use) }}>{disk.use}</p>
           </Box>)}
       </Box>
+      <p className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</p> 
+    </>
+  )
 
-      {serverMode &&
-      <>
+
+  const detailsMode = (
+    <>
+      <p className='bold'>Drives</p>
+      {useValues.map(value => 
         <Box my={10}>
-          <p className='bold'> Database</p>
-          <p>{server.databaseURL}</p>
+          {details.map(detail =>
+            <Box key={detail.field} className='xsb'>
+              <p className='bold'>{detail.title}</p>
+              {detail.field === 'use' ?
+                <p style={{ color: color(value.use) }}>{value.use} </p>
+                : <p>{value[detail.field]}</p>
+              }
+            </Box>
+          )}
         </Box>
-        <Box my={10}>
-          <p  className='bold'> Input</p>
-          <p>{server.inputDir}</p>
-        </Box>
-        <Box my={10}>
-          <p  className='bold'>Historical</p>
-          <p>{server.historicalDir}</p>
-        </Box>
-        <Box my={10}>
-          <p  className='bold'>Output</p>
-          <p>{server.outputDir}</p>
-        </Box>
-      </>
+      )
       }
+    </>
+  )
 
-      <p className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</p>
+  return (
+
+    <Box className='server-container'
+      height={height} style={{ borderTop: `20px solid ${borderColor}` }}>
+
+      <Box mb={3} className='xsb'>
+        <Box display='flex' alignItems='center'>
+          <Status status={!diskObj} mr={8} />
+          <p className='server-title'>{server.title}</p>
+        </Box>
+        {!diskObj && <BellIcon className='bell-icon' />}
+      </Box>
+
+      
+      {diskObj && !serverMode && instanceMode}
+      {serverMode && diskObj && detailsMode}
+      {!diskObj && <p>ERROR</p>}
+      
+
     </Box>
   )
 }
