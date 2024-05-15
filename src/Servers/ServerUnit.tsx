@@ -54,11 +54,11 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
         <p>Used</p>
       </Box>
       <Box overflow='scroll' flexGrow={1}>
-        {useValues.map(disk =>
-          <Box key={disk.fileSystem} className='xsb'>
-            <p >{disk.fileSystem}</p>
-            <p style={{ color: color(disk.use) }}>{disk.use}</p>
-          </Box>)}
+        {useValues?.map(d =><Box key={d.fileSystem} className='xsb'>
+          <p >{d.fileSystem}</p>
+          <p style={{ color: color(d.use) }}>{d.use}</p>
+        </Box>
+        )}
       </Box>
       <p className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</p> 
     </>
@@ -67,21 +67,16 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
 
   const detailsMode = (
     <>
-      <p className='bold'>Drives</p>
-      {useValues.map(value => 
-        <Box my={10}>
-          {details.map(detail =>
-            <Box key={detail.field} className='xsb'>
-              <p className='bold'>{detail.title}</p>
-              {detail.field === 'use' ?
-                <p style={{ color: color(value.use) }}>{value.use} </p>
-                : <p>{value[detail.field]}</p>
-              }
-            </Box>
+      <p className='drives-titles'>Drives</p>
+      {useValues?.map(value => 
+        <Box my={10} key={value.fileSystem}>
+          {details.map(d => <Box key={d.field} className='xsb'>
+            <p className='bold'>{d.title}</p>
+            <p style={{ color: d.field === 'use' && color(value.use) }}>{value[d.field]} </p>
+          </Box>
           )}
         </Box>
-      )
-      }
+      )}
     </>
   )
 
@@ -95,7 +90,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
           <Status status={!diskObj} mr={8} />
           <p className='server-title'>{server.title}</p>
         </Box>
-        {!diskObj && <BellIcon className='bell-icon' />}
+        {!diskObj && <BellIcon className='bell-icon'/>}
       </Box>
 
       

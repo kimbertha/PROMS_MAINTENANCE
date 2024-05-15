@@ -1,6 +1,7 @@
 import { Box } from '@chakra-ui/react'
 import Status from '../components/status/Status'
 import { useNavigate } from 'react-router-dom'
+import { BellIcon } from '@chakra-ui/icons'
 
 interface InstanceUnitProps {
   server: string;
@@ -9,7 +10,7 @@ interface InstanceUnitProps {
 
 const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
   const navigate = useNavigate()
-  const border = instance.error ? 'rgba(206, 69, 69,0.8)' : 'rgba(36, 36, 36, 0.9)'
+  const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
   
   const details = [{
     title: 'Historical',
@@ -26,13 +27,15 @@ const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
-      <Box display='flex' alignItems='center' mb={10}>
-        <Status status={instance.error} mr={8} />
-        <p style={{ fontSize: '1.1em', fontWeight: 700 }}>{instance.title}</p>
+      <Box className='xsb' mb={10}>
+        <Box display='flex' alignItems='center'>
+          <Status status={instance.error} mr={8} />
+          <p style={{ fontSize: '1.1em', fontWeight: 700 }}>{instance.title}</p>
+        </Box>
+        {instance.error && <BellIcon className='bell-icon'/>}
       </Box>
       
-      {instance.error ?
-        <p>{instance.error}</p> :
+      {instance.error ? <p>{instance.error}</p> :
         <>
           <Box flexGrow={1}>
             {details.map(d => 
@@ -45,9 +48,7 @@ const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
               <p className='bold'>Database</p>
               <p>{instance.databaseURL}</p>
             </Box>
-    
           </Box>
-      
           <p className='expand' onClick={() => navigate(`${server}/${instance.id}`)}>See More...</p>
         </>
       }

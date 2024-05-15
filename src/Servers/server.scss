@@ -73,6 +73,14 @@ $headerHeight: 50px;
     padding-top: 5px;
     cursor: pointer;
     }
+
+      
+  .bell-icon{
+    right: 0;
+    color: rgb(133, 13, 13);
+    font-size: 1.5em;
+    cursor: pointer;
+  }
 }
 
 .server-container {
@@ -82,13 +90,6 @@ $headerHeight: 50px;
   .server-title {
     @extend .bold;
     font-size: 1.5em;
-  }
-  
-  .bell-icon{
-    right: 0;
-    color: rgb(133, 13, 13);
-    font-size: 1.5em;
-    cursor: pointer;
   }
 
   .drives-titles {
