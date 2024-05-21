@@ -9,9 +9,10 @@ interface ServerHeaderProps {
   serverMode: boolean;
   searchValue: string;
   setSearchValue: React.Dispatch<React.SetStateAction<string>>;
+  toggleModal: () => void;
 }
 
-const ServerHeader = ({ setServerMode, serverMode, searchValue, setSearchValue }:ServerHeaderProps) => {
+const ServerHeader = ({ setServerMode, serverMode, searchValue, setSearchValue, toggleModal }:ServerHeaderProps) => {
   const [show, setShow] = useState(true)
   const [lastScrollY, setLastScrollY] = useState(0)
 
@@ -32,7 +33,7 @@ const ServerHeader = ({ setServerMode, serverMode, searchValue, setSearchValue }
     <Box width='100%' className={`server-header ${!show && 'hidden'}`}>
 
       <Box display='flex'>
-        <Box className='menu-item' mr={20} onClick={() => setServerMode(true)}>
+        <Box className='menu-item' mr='20px' onClick={() => setServerMode(true)}>
           <p style={{ borderBottom: serverMode && '2px solid black' }}
           >Servers</p>
         </Box>
@@ -45,8 +46,8 @@ const ServerHeader = ({ setServerMode, serverMode, searchValue, setSearchValue }
       
       <Box display='flex' alignItems='center' height='100%'>
         <SearchBar searchValue={searchValue} setSearchValue={setSearchValue} />
-        <Button className='header-button' mx={15}>+ New  Server</Button>
-        <Button className='header-button'>+ New Instance</Button>
+        <Button className='header-button' mx={3} size='xs'>+ New  Server</Button>
+        <Button className='header-button' size='xs' onClick={() => toggleModal()}>+ New Instance</Button>
       </Box>
         
     </Box>

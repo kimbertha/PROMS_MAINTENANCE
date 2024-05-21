@@ -8,21 +8,24 @@ export const headers = {
 
 
 
-export const dataURL = (server, instance) => `https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpaneldata`
+export const dataURL = (server : string, instance:string ) => `https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpaneldata`
+export const pingURL = (server: string, instance: string) => `https://${server}.radleypropertysolutions.com/${instance}/#userlogin.jsp`
 
+
+//hard coded 
 export const dataObj = [
-  {
-    id: 'delta',
-    title: 'Fake',
-    instances: [{
-      id: 'tesst',
-      title: 'Fake'
-    },
-    {
-      id: 'template',
-      title: 'Template'
-    }]
-  },
+  // {
+  //   id: 'delta',
+  //   title: 'Fake',
+  //   instances: [{
+  //     id: 'tesst',
+  //     title: 'Fake'
+  //   },
+  //   {
+  //     id: 'template',
+  //     title: 'Template'
+  //   }]
+  // },
   {
     id: 'delta',
     title: 'Delta',

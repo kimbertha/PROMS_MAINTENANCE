@@ -1,9 +1,9 @@
 import { Box } from '@chakra-ui/react'
-import Status from  '../components/status/Status'
-import './server.scss'
+import Status from  '../../components/status/Status'
+import '../server.scss'
 import { useNavigate } from 'react-router-dom'
 import { BellIcon } from '@chakra-ui/icons'
-import { strToNum } from '../functions'
+import { strToNum } from '../../lib/functions'
 
 interface ServerUnitProps {
   server: any;
@@ -69,7 +69,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     <>
       <p className='drives-titles'>Drives</p>
       {useValues?.map(value => 
-        <Box my={10} key={value.fileSystem}>
+        <Box pb={2} my={2} key={value.fileSystem} borderBottom='1px solid lightgrey'>
           {details.map(d => <Box key={d.field} className='xsb'>
             <p className='bold'>{d.title}</p>
             <p style={{ color: d.field === 'use' && color(value.use) }}>{value[d.field]} </p>
@@ -85,9 +85,9 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     <Box className='server-container'
       height={height} style={{ borderTop: `20px solid ${borderColor}` }}>
 
-      <Box mb={3} className='xsb'>
+      <Box mb={1} className='xsb'>
         <Box display='flex' alignItems='center'>
-          <Status status={!diskObj} mr={8} />
+          <Status status={!diskObj} mr={2} />
           <p className='server-title'>{server.title}</p>
         </Box>
         {!diskObj && <BellIcon className='bell-icon'/>}

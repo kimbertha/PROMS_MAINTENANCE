@@ -4,8 +4,8 @@ import axios from 'axios'
 import Table from '../components/table/Table'
 import './instance.scss'
 import { useParams } from 'react-router-dom'
-import { dataURL, headers } from '../api'
-import { cap } from '../functions'
+import { dataURL, headers } from '../lib/api'
+import { cap } from '../lib/functions'
 
 const Instance = () => {
   const [instance, setInstance] = useState<any>()

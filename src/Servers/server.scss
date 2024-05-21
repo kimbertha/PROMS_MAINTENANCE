@@ -40,7 +40,7 @@ $headerHeight: 50px;
     border-radius: 10px;
     background-color: rgb(56, 56, 56);
     color: white;
-    padding: 4px 10px;
+    padding: 4px 30px;
     font-size: 0.7em;
 
   }
@@ -49,8 +49,8 @@ $headerHeight: 50px;
 // SERVER AND INSTANCE
 
 .content {
-  padding: $padding;
-  padding-top: $headerHeight + 10px;
+  padding: $padding !important;
+  padding-top: $headerHeight + 10px !important;
 }
 
 

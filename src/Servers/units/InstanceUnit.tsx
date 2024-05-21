@@ -1,5 +1,5 @@
 import { Box } from '@chakra-ui/react'
-import Status from '../components/status/Status'
+import Status from '../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
 import { BellIcon } from '@chakra-ui/icons'
 
@@ -27,9 +27,9 @@ const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
-      <Box className='xsb' mb={10}>
+      <Box className='xsb' mb={1}>
         <Box display='flex' alignItems='center'>
-          <Status status={instance.error} mr={8} />
+          <Status status={instance.error} mr={2} />
           <p style={{ fontSize: '1.1em', fontWeight: 700 }}>{instance.title}</p>
         </Box>
         {instance.error && <BellIcon className='bell-icon'/>}
@@ -37,14 +37,14 @@ const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
       
       {instance.error ? <p>{instance.error}</p> :
         <>
-          <Box flexGrow={1}>
+          <Box flexGrow={1} overflow='scroll'>
             {details.map(d => 
               <Box className='xsb' key={d.field}>
                 <p className='bold'>{d.title}</p>
                 <p>{instance[d.field]}</p>
               </Box>
             )}
-            <Box mt={10}>
+            <Box mt={1}>
               <p className='bold'>Database</p>
               <p>{instance.databaseURL}</p>
             </Box>

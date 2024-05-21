@@ -1,8 +1,6 @@
 .search-bar {
-  // border: 1px solid grey;
-  border-radius: 20px;
-  padding:3px;
   background-color: rgb(238, 238, 238);
+  border-radius: 40px !important;
 }
 
 
@@ -11,5 +9,7 @@
 .search-input {
   border:none;
   outline:none;
+  border-radius: 40px !important;
+
   background-color: rgb(238, 238, 238);
 }

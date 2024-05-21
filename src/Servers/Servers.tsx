@@ -2,17 +2,19 @@
 import { useEffect, useState } from 'react'
 import { Box } from '@chakra-ui/react'
 import axios from 'axios'
-import { headers, dataObj, dataURL } from '../api'
-import ServerUnit from './ServerUnit'
-import InstanceUnit from './InstanceUnit'
+import { headers, dataObj, dataURL } from '../lib/api'
+import ServerUnit from './units/ServerUnit'
+import InstanceUnit from './units/InstanceUnit'
 import ServerHeader from './ServerHeader'
+import NewInstance from './forms/NewInstance'
+import { useModal } from '../components/modal/useModal'
 
 const Servers = () => {
   const [serverData, setServerData] = useState<any>([])
   const [serverMode, setServerMode] = useState(false)
   const [searchValue, setSearchValue] = useState('')
+  const [isOpen, setIsOpen, toggleModal] = useModal(false)
   const displayClass = !serverMode ? 'block' : 'flex' 
-
 
   const filtered = searchValue !== '' ?
     [...serverData].filter(server =>
@@ -48,10 +50,16 @@ const Servers = () => {
     // return () => clearInterval(timer)
   }, [])
 
+
   return (
     <Box>
+      
+      <NewInstance
+        setIsOpen={setIsOpen}
+        isOpen={isOpen} />
 
       <ServerHeader
+        toggleModal={toggleModal}
         setServerMode={setServerMode}
         serverMode={serverMode}
         searchValue={searchValue}
@@ -59,7 +67,7 @@ const Servers = () => {
       />
 
       <Box className='content' display={displayClass} flexGrow={1}>
-        {filtered.map(server =><Box key={server.id} display='flex'>
+        {filtered.map(server =><Box key={server.title} display='flex'>
           <ServerUnit server={server} serverMode={serverMode} />
 
           {!serverMode && <Box overflow='scroll' display='flex'>
