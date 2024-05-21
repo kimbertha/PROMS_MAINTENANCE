@@ -10,7 +10,7 @@ interface InstanceUnitProps {
 
 const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
   const navigate = useNavigate()
-  const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
+  const border = instance.error ? 'rgba(222, 15, 15, 0.8)' :  'rgba(36, 36, 36, 0.9)'
   
   const details = [{
     title: 'Historical',
@@ -28,10 +28,7 @@ const InstanceUnit = ({  instance , server }: InstanceUnitProps) => {
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
       <Box className='xsb' mb={1}>
-        <Box display='flex' alignItems='center'>
-          <Status status={instance.error} mr={2} />
-          <p style={{ fontSize: '1.1em', fontWeight: 700 }}>{instance.title}</p>
-        </Box>
+        <Status status={!instance.error} title={ instance.title} />
         {instance.error && <BellIcon className='bell-icon'/>}
       </Box>
       

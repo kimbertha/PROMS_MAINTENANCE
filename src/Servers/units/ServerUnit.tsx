@@ -45,7 +45,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       title: 'Used'
     }
   ]
-  
+
 
   const instanceMode = (
     <>
@@ -86,10 +86,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       height={height} style={{ borderTop: `20px solid ${borderColor}` }}>
 
       <Box mb={1} className='xsb'>
-        <Box display='flex' alignItems='center'>
-          <Status status={!diskObj} mr={2} />
-          <p className='server-title'>{server.title}</p>
-        </Box>
+        <Status status={diskObj} title={ server.title} size='md'/>
         {!diskObj && <BellIcon className='bell-icon'/>}
       </Box>
 
