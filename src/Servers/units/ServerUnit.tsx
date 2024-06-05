@@ -2,9 +2,8 @@ import { Box } from '@chakra-ui/react'
 import Status from  '../../components/status/Status'
 import '../server.scss'
 import { useNavigate } from 'react-router-dom'
-import { BellIcon } from '@chakra-ui/icons'
 import { strToNum } from '../../lib/functions'
-
+import { TbMailExclamation } from 'react-icons/tb'
 interface ServerUnitProps {
   server: any;
   serverMode: boolean;
@@ -87,7 +86,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
 
       <Box mb={1} className='xsb'>
         <Status status={diskObj} title={ server.title} size='md'/>
-        {!diskObj && <BellIcon className='bell-icon'/>}
+        {!diskObj && <TbMailExclamation className='alert-icon' />}
       </Box>
 
       

@@ -75,10 +75,10 @@ $headerHeight: 50px;
     }
 
       
-  .bell-icon{
+  .alert-icon{
     right: 0;
     color: rgb(133, 13, 13);
-    font-size: 1.5em;
+    margin: 0 0 1px 6px;
     cursor: pointer;
   }
 }
@@ -101,4 +101,12 @@ $headerHeight: 50px;
 .instance-container {
   @extend %unit-container;
   height: calc(100vh/4);
+}
+
+#ping-status {
+  h2 { 
+    font-size: 10px !important;
+    font-weight: 400 !important;
+    margin: 0 1px;
+  }
 }
