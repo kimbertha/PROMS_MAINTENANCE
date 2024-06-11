@@ -1,4 +1,37 @@
+.container {
+padding: 30px;
+}
+
+.term-container {
+  overflow: scroll;
+  border: 1px solid black;
+  background-color: white;
+  padding: 10px;
+}
+
+
 .audits-container {
   height: 40vh;
   overflow:scroll;
+}
+
+.backups-container {
+  @extend .term-container;
+  // height: 60vh;
+}
+
+.cron-container {
+  @extend .term-container;
+  // height: 60vh;
+}
+
+.backups-container {
+  @extend .term-container;
+  // height: 60vh;
+}
+
+.logs-container {
+  @extend .term-container;
+  height: 60vh;
+
 }
