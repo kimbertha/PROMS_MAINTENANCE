@@ -30,7 +30,6 @@ const Table = ({ columns, rows, amount = 5 }: TableProps) => {
     columns.slice(i * amount, i * amount + amount)
   )
   
-  console.log(arrays)
   return (
     <>
       <ChakraTable>

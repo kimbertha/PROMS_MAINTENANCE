@@ -34,7 +34,7 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
     field: 'outputDir'
   }]
 
-  console.log(pingStatus)
+  
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 

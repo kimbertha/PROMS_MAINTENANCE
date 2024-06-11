@@ -4,7 +4,7 @@ import axios from 'axios'
 import Table from '../components/table/Table'
 import './instance.scss'
 import { useParams } from 'react-router-dom'
-import { dataURL, headers, pingURL } from '../lib/api'
+import { dataURL, headers, pingURL, logFilesURL } from '../lib/api'
 import { Heading } from '@chakra-ui/react'
 import { cap } from '../lib/functions'
 import { colors } from '../lib/vars'
@@ -19,12 +19,14 @@ const Instance = () => {
 
 
   const getInstance = async () => {
-    setInstance((await axios.get(dataURL(server, instanceURL), headers)).data)
+    const logFiles = ((await axios.get(logFilesURL(server, instanceURL), headers)).data)
+    const instance = (await axios.get(dataURL(server, instanceURL), headers)).data
+    setInstance({ ...instance, logFiles: logFiles })
+
   }
 
   const pingInstance = async () => { 
     const res = await axios.get(pingURL(server, instanceURL))
-    console.log(res.status === 200)
     setPingStatus(res.status === 200  ? true : false)
   }
 
@@ -57,6 +59,7 @@ const Instance = () => {
     }]
 
 
+  console.log(instance)
 
   if (!instance) return null
   return (
@@ -89,6 +92,20 @@ const Instance = () => {
         <Table rows={tableRows} columns={instance?.auditLogs} />
       </Box>
 
+      <Box className='cron-container' my={10}>
+        <Heading size='md'>Cron Array</Heading>
+        {instance.cronArray?.map((cron, i) => <Box key={i}>{cron}</Box>)}
+      </Box>
+
+      <Box className='bakcups-container' my={10}>
+        <Heading size='md'>Cron Array</Heading>
+        {instance.backupArray?.map((cron, i) => <Box key={i}>{cron}</Box>)}
+      </Box>
+
+      <Box className='logfiles-container' my={10}>
+        <Heading size='md'>Logfiles</Heading>
+        {instance.logFiles?.map((log, i) => <Box key={i}>{log}</Box>)}
+      </Box>
     </Box>
   )
 }

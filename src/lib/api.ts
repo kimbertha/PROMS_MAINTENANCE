@@ -10,6 +10,7 @@ export const headers = {
 
 export const dataURL = (server : string, instance:string ) => `https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpaneldata`
 export const pingURL = (server: string, instance: string) => `https://${server}.radleypropertysolutions.com/${instance}/#userlogin.jsp`
+export const logFilesURL = (server: string, instance: string) =>`https://${server}.radleypropertysolutions.com/test/promsrest/getmpanellogfile/${instance}`
 
 
 //hard coded 

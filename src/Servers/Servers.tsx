@@ -50,6 +50,8 @@ const Servers = () => {
     // return () => clearInterval(timer)
   }, [])
 
+  console.log(serverData)
+
 
   return (
     <Box>
