@@ -34,9 +34,6 @@ const Table = ({ columns, rows, pagination , amount = 10 }: TableProps) => {
   const arrays = columns.length > 0 ? Array.from({ length: Math.ceil(columns.length / showAmount) }, (v, i) =>
     columns.slice(i * showAmount, i * showAmount + showAmount)) : columns
   
-
-  console.log(arrays)
-  console.log(columns)
   return (
     <>
       <ChakraTable>

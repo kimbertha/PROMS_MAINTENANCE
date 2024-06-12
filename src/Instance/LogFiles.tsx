@@ -11,10 +11,25 @@ const LogFiles = ({ instance }) => {
       : log)
 
   const colors = ['rgb(9, 175, 175)', 'rgb(9, 175, 175)', 'rgb(3, 116, 116)', 'rgb(149, 35, 149)','rgb(215, 197, 2)', 'white']
-  
+  const counts = {}
+
+  const titles = () => {
+    data?.filter(obj => typeof obj !== 'string').map(obj => obj[3]).forEach(function (x) {
+      counts[x] = (counts[x] || 0) + 1 
+    })
+  }
+  titles()
+
   return (
-    <>
-      <Heading size='md'>Logfiles</Heading>
+    <Box border='1px solid lightGrey' my={2}>
+
+      <Box display='flex' justifyContent='space-between' alignItems='center' p={4}>
+        <Heading size='md'>Logfiles</Heading>
+        <Box display='flex'>
+          {Object.entries(counts).map((entry: [string, number]) => <Box className='tableCount'>{entry[0]} {entry[1]}</Box>)}
+        </Box>
+      </Box>
+
       <Box className='logs-container'>
         {data?.map((log, i) => 
           <Box display='flex' key={i}>
@@ -28,7 +43,7 @@ const LogFiles = ({ instance }) => {
           </Box>
         )}
       </Box>
-    </>
+    </Box>
   )
 }
 
