@@ -1,4 +1,4 @@
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import Status from  '../../components/status/Status'
 import '../server.scss'
 import { useNavigate } from 'react-router-dom'
@@ -49,29 +49,29 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
   const instanceMode = (
     <>
       <Box className='xsb drives-titles'>
-        <p>File System</p>
-        <p>Used</p>
+        <Text>File System</Text>
+        <Text>Used</Text>
       </Box>
       <Box overflow='scroll' flexGrow={1}>
         {useValues?.map(d =><Box key={d.fileSystem} className='xsb'>
-          <p >{d.fileSystem}</p>
-          <p style={{ color: color(d.use) }}>{d.use}</p>
+          <Text >{d.fileSystem}</Text>
+          <Text style={{ color: color(d.use) }}>{d.use}</Text>
         </Box>
         )}
       </Box>
-      <p className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</p> 
+      <Text className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</Text> 
     </>
   )
 
 
   const detailsMode = (
     <>
-      <p className='drives-titles'>Drives</p>
+      <Text className='drives-titles'>Drives</Text>
       {useValues?.map(value => 
         <Box pb={2} my={2} key={value.fileSystem} borderBottom='1px solid lightgrey'>
           {details.map(d => <Box key={d.field} className='xsb'>
-            <p className='bold'>{d.title}</p>
-            <p style={{ color: d.field === 'use' && color(value.use) }}>{value[d.field]} </p>
+            <Text className='bold'>{d.title}</Text>
+            <Text style={{ color: d.field === 'use' && color(value.use) }}>{value[d.field]} </Text>
           </Box>
           )}
         </Box>
@@ -92,7 +92,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       
       {diskObj && !serverMode && instanceMode}
       {serverMode && diskObj && detailsMode}
-      {!diskObj && <p>ERROR</p>}
+      {!diskObj && <Text>ERROR</Text>}
       
 
     </Box>

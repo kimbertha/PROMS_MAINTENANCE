@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Box, Heading, Button  } from '@chakra-ui/react'
 import { dataURL, headers } from '../lib/api'
 import { cap } from '../lib/functions'
+import { TbMailExclamation } from 'react-icons/tb'
 
 import TabsMenu from '../components/page-menu/TabsMenu'
 import Backups from './Backups'
@@ -53,7 +54,14 @@ const Instance = () => {
 
   return (
     <Box className='container'>
-      <Heading size='lg'>{cap(server)} {cap(instanceURL)}</Heading>
+      <Box display='flex' justifyContent='space-between' alignItems='center'>
+        <Box>
+          <Heading size='lg'>{cap(server)} {cap(instanceURL)}</Heading>
+          <small>PROMS maintenance panel</small>
+        </Box>
+        <TbMailExclamation size='1.5em' />
+      </Box>
+
       <TabsMenu tabs={tabElements} my={10} />
     </Box>
   )

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box,Text } from '@chakra-ui/react'
 import Status from '../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
 import { BellIcon } from '@chakra-ui/icons'
@@ -55,21 +55,21 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
       
 
 
-      {instance.error ? <p>{instance.error}</p> :
+      {instance.error ? <Text>{instance.error}</Text> :
         <>
           <Box flexGrow={1} overflow='scroll'>
             {details.map(d => 
               <Box className='xsb' key={d.field}>
-                <p className='bold'>{d.title}</p>
-                <p>{instance[d.field]}</p>
+                <Text className='bold'>{d.title}</Text>
+                <Text>{instance[d.field]}</Text>
               </Box>
             )}
             <Box mt={1}>
-              <p className='bold'>Database</p>
-              <p>{instance.databaseURL}</p>
+              <Text className='bold'>Database</Text>
+              <Text>{instance.databaseURL}</Text>
             </Box>
           </Box>
-          <p className='expand' onClick={() => navigate(`${server}/${instance.id}`)}>See More...</p>
+          <Text className='expand' onClick={() => navigate(`${server}/${instance.id}`)}>See More...</Text>
         </>
       }
     </Box>

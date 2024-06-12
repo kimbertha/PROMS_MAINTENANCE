@@ -17,10 +17,10 @@ const LogFiles = ({ instance }) => {
       <Heading size='md'>Logfiles</Heading>
       <Box className='logs-container'>
         {data?.map((log, i) => 
-          <Box display='flex'>
+          <Box display='flex' key={i}>
             {typeof log !== 'string' && <Status status={log[3] === 'ERROR' ? false : true} />}
             <p key={i}>
-              {typeof log === 'string' ? <p style={{ color: 'white' }}>{log}</p> :
+              {typeof log === 'string' ? <span style={{ color: 'white' }}>{log}</span> :
                 log.map((title, i) =>
                   <span key={i} style={{ color: colors[i], marginRight: '5px' }}>{title} </span>
                 )}

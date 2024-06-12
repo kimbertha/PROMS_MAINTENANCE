@@ -36,13 +36,13 @@ const AuditLogs = ({ instance }) => {
   
   if (!instance) return null
   return (
-    <>
-      <Box className='audits-container'>
-        <Heading size='md'>Audit Logs</Heading>
-        <Table rows={tableRows} columns={instance.auditLogs} />
-      </Box>
+
+    <Box className='audits-container' flexGrow={1} border='1px solid lightGrey' mx={2}>
+      <Heading size='md'>Audit Logs</Heading>
+      <Table rows={tableRows} columns={instance.auditLogs} pagination={true} />
+    </Box>
       
-    </>
+
   )
 }
 export default AuditLogs
