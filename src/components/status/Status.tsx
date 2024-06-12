@@ -17,7 +17,7 @@ const Status:React.FC<StatusProps> = ({ title, icon, status, size = 'sm', ...oth
     
     <Box display='flex' alignItems='center'  {...other}>
       {icon ? <Box color={!status ? 'red' : '#12b36d'} > {icon} </Box> : <Box mr={2} className='status-circle' style={{ backgroundColor }} />}
-      <Heading size={size}>{title}</Heading>
+      {title && <Heading size={size}>{title}</Heading>}
     </Box>
     
   )

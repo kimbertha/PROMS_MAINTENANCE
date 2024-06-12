@@ -1,27 +1,32 @@
 import React from 'react'
 import { Heading, Box } from '@chakra-ui/react'
-
-
+import Status from '../components/status/Status'
 const LogFiles = ({ instance }) => {
 
   //values
 
-  const data : Array<string|string[]> = instance?.logFiles.map(log =>
+  const data : Array<string|string[]> = instance?.logFiles.reverse().map(log =>
     log.includes('[Thread') ?
       [...log.split('  - ')[0].split(' ').filter(log => log !== ''), ...[log.split('  - ')[1]]]
       : log)
 
-  const colors = ['red', 'green', 'blue', 'pink', 'orange', 'black']
+  const colors = ['rgb(9, 175, 175)', 'rgb(9, 175, 175)', 'rgb(3, 116, 116)', 'rgb(149, 35, 149)','rgb(215, 197, 2)', 'white']
   
   return (
     <>
       <Heading size='md'>Logfiles</Heading>
       <Box className='logs-container'>
-        {data?.map((log, i) => <p key={i}>
-          {typeof log === 'string' ? log : log.map((title, i) =>
-            <span key={i} style={{ color: colors[i] }}>{title + '  '} </span>
-          )}
-        </p>)}
+        {data?.map((log, i) => 
+          <Box display='flex'>
+            {typeof log !== 'string' && <Status status={log[3] === 'ERROR' ? false : true} />}
+            <p key={i}>
+              {typeof log === 'string' ? <p style={{ color: 'white' }}>{log}</p> :
+                log.map((title, i) =>
+                  <span key={i} style={{ color: colors[i], marginRight: '5px' }}>{title} </span>
+                )}
+            </p>
+          </Box>
+        )}
       </Box>
     </>
   )

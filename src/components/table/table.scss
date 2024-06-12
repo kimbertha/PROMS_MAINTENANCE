@@ -9,7 +9,6 @@ table{
   thead{
     // background-color:#F4F7FC;
     background-color:#f7f7f8;
-
     padding: 10px;
     text-align: start;
     font-size: 0.8em;
@@ -26,5 +25,11 @@ table{
   .result {
     color:white;
   }
+}
+
+.pagination-container {
+  background-color:#f7f7f8;
+  border: 1px solid grey;
 
 }
+

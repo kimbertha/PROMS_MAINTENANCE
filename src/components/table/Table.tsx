@@ -2,6 +2,10 @@
 import React, { useState, useEffect } from 'react'
 import './table.scss'
 import { GoAlertFill } from 'react-icons/go'
+import { Select } from '@chakra-ui/react'
+import { MdNavigateNext,MdLastPage, MdFirstPage, MdNavigateBefore } from 'react-icons/md'
+
+
 
 import {
   Table as ChakraTable,
@@ -21,15 +25,16 @@ interface TableProps {
 
 }
 
-const Table = ({ columns, rows, amount = 5 }: TableProps) => {
+const Table = ({ columns, rows, amount = 10 }: TableProps) => {
   const [index, setIndex] = useState(0)
-  
+  const [showAmount, setShowAmount] = useState<number>(amount)
 
   
-  const arrays = Array.from({ length: Math.ceil(columns.length / amount) }, (v, i) =>
-    columns.slice(i * amount, i * amount + amount)
+  const arrays = Array.from({ length: Math.ceil(columns.length / showAmount) }, (v, i) =>
+    columns.slice(i * showAmount, i * showAmount + showAmount)
   )
-  
+
+
   return (
     <>
       <ChakraTable>
@@ -62,11 +67,30 @@ const Table = ({ columns, rows, amount = 5 }: TableProps) => {
           }
         </Tbody>
       </ChakraTable>
-      <Box>
-        {(index + 1) * amount} of {columns.length }
-        <Button onClick={() => setIndex(index === arrays.length - 1 ? 0 : index + 1)}>Next</Button>
-        <Button onClick={() => setIndex(index === 0 ?  arrays.length - 1 : index - 1)}>Back</Button>
 
+      <Box display='flex' className='pagination-container'>
+        <Box display='flex' justifyContent='space-between'  width='100%' alignItems='center'>
+          <small> {(index + 1) * showAmount} of {columns.length } results </small>
+
+          <Box display='flex'>
+            <MdFirstPage/>
+            <MdNavigateBefore onClick={() => setIndex(index === 0 ? arrays.length - 1 : index - 1)}/>
+            <MdNavigateNext onClick={() => setIndex(index === arrays.length - 1 ? 0 : index + 1)} />
+            <MdLastPage/>
+          </Box>
+          
+
+          <Box display='flex' alignItems='center'> 
+            <small style={{ whiteSpace: 'nowrap' }}>Per page</small>
+            <Select size='xs' onChange={(e) => setShowAmount(parseInt(e.target.value))}>
+              {columns.length > 10  && <option value={10} >10</option>}
+              {columns.length > 25  && <option value={25} >25</option>}
+              {columns.length > 50  && <option value={50} >50</option>}
+              {columns.length > 100 && <option value={100} >100</option>}
+              <option value={columns.length} >All</option>
+            </Select>
+          </Box>
+        </Box>
       </Box>
     </>
   )
