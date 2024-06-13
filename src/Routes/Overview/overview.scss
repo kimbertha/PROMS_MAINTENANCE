@@ -1,6 +1,6 @@
 
 
-@import '../app.scss';
+@import '../../app.scss';
 
 
 $unitWidth:calc(100vw/ 5);
@@ -109,4 +109,10 @@ $headerHeight: 50px;
     font-weight: 400 !important;
     margin: 0 1px;
   }
+}
+
+
+.server-logs-container{ 
+  @extend .term-container;
+  height: 50vh;
 }

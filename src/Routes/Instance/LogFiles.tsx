@@ -1,6 +1,6 @@
 import React from 'react'
 import { Heading, Box } from '@chakra-ui/react'
-import Status from '../components/status/Status'
+import Status from '../../components/status/Status'
 const LogFiles = ({ instance }) => {
 
   //values

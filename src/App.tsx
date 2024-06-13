@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Servers from './Servers/Servers'
-import Instance from './Instance/Instance'
+import Server from './Routes/Servers/Server'
+import Overview from './Routes/Overview/Overview'
+import Instance from './Routes/Instance/Instance'
 import './app.scss'
 import { Box } from '@chakra-ui/react'
 
@@ -11,8 +12,9 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Servers/>} />
-          <Route path='/:server/:instance' element={<Instance/>} />
+          <Route path='/' element={<Overview/>} />
+          <Route path='/:server/:instance' element={<Instance />} />
+          <Route path='/:server' element={<Server/>} />
         </Routes>
       </BrowserRouter>
     </>

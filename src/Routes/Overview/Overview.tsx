@@ -2,14 +2,15 @@
 import { useEffect, useState } from 'react'
 import { Box } from '@chakra-ui/react'
 import axios from 'axios'
-import { headers, dataObj, dataURL } from '../lib/api'
+import { constructDsArray } from '../../lib/functions'
+import { headers, dataObj, dataURL } from '../../lib/api'
 import ServerUnit from './units/ServerUnit'
 import InstanceUnit from './units/InstanceUnit'
-import ServerHeader from './ServerHeader'
+import ServerHeader from './OverviewHeader'
 import NewInstance from './forms/NewInstance'
-import { useModal } from '../components/modal/useModal'
+import { useModal } from '../../components/modal/useModal'
 
-const Servers = () => {
+const Overview = () => {
   const [serverData, setServerData] = useState<any>([])
   const [serverMode, setServerMode] = useState(false)
   const [searchValue, setSearchValue] = useState('')
@@ -21,11 +22,6 @@ const Servers = () => {
       server.instances.some(instance => instance.title.toLowerCase().includes(searchValue.toLowerCase()))
     || server.title.toLowerCase().includes(searchValue.toLowerCase()))
     : serverData
-  
-  const constructServerData = (dsArray) => {
-    const arr = dsArray.map(str => str.split(' ').filter(Boolean)).slice(1)
-    return  arr.map(([fileSystem, size, used, avail, use, mountedOn]) => ({ fileSystem, size, used, avail, use, mountedOn }))
-  }
 
   const constructData = async () => {
     const obj = await Promise.all( dataObj.map(async server => ({
@@ -33,7 +29,7 @@ const Servers = () => {
         await Promise.all(server.instances.map(async instance => {
           try {
             const req = (await axios.get(dataURL(server.id, instance.id), headers)).data
-            return { ...instance, ...req, dsArray: constructServerData(req.dsArray) }
+            return { ...instance, ...req, dsArray: constructDsArray(req.dsArray) }
           } catch (err) {
             console.log(err)
             return { ...instance, error: err.message }
@@ -83,5 +79,5 @@ const Servers = () => {
     </Box>
   )
 }
-export default Servers
+export default Overview
 

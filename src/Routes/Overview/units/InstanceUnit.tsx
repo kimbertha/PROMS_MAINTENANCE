@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { Box,Text } from '@chakra-ui/react'
-import Status from '../../components/status/Status'
+import Status from '../../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
 import { BellIcon } from '@chakra-ui/icons'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
 import { MdOutlineCrisisAlert } from 'react-icons/md'
 import { TbMailExclamation } from 'react-icons/tb'
 
-import { getPing } from '../../lib/hooks'
-import { pingURL } from '../../lib/api'
+import { getPing } from '../../../lib/hooks'
+import { pingURL } from '../../../lib/api'
 
 
 

@@ -3,10 +3,10 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Box, Heading,  Text } from '@chakra-ui/react'
 
-import { pingURL } from '../lib/api'
+import { pingURL } from '../../lib/api'
 import AuditLogs from './AuditLogs'
 import LogFiles from './LogFiles'
-import Status from '../components/status/Status'
+import Status from '../../components/status/Status'
 import Cron from './Cron'
 import Backups from './Backups'
 
@@ -64,10 +64,11 @@ const Summary = ({ instance }) => {
         </Box>
         <AuditLogs instance={instance} />
       </Box>
-
+      
+      <LogFiles instance={instance}/>
       <Cron instance={instance} />
       <Backups instance={instance}/>
-      <LogFiles instance={instance}/>
+
     </>
     
   )

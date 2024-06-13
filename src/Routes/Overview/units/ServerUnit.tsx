@@ -1,9 +1,10 @@
 import { Box, Text } from '@chakra-ui/react'
-import Status from  '../../components/status/Status'
-import '../server.scss'
+import Status from  '../../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
-import { strToNum } from '../../lib/functions'
+import { strToNum } from '../../../lib/functions'
 import { TbMailExclamation } from 'react-icons/tb'
+
+import '../overview.scss'
 interface ServerUnitProps {
   server: any;
   serverMode: boolean;
@@ -59,7 +60,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
         </Box>
         )}
       </Box>
-      <Text className='expand' onClick={() => navigate(`/${server.name}`)}>See More...</Text> 
+      <Text className='expand' onClick={() => navigate(`/${server.id}`)}>See More...</Text> 
     </>
   )
 

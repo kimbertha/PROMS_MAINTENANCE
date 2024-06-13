@@ -2,7 +2,7 @@
 import { Box, Button } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import logo from '../assets/PROMS-Logo-RGB.png'
-import SearchBar from '../components/search/SearchBar'
+import SearchBar from '../../components/search/SearchBar'
 
 interface ServerHeaderProps {
   setServerMode: React.Dispatch<React.SetStateAction<boolean>>;

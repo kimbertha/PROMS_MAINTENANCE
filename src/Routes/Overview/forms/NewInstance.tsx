@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
 import { Box, Heading,Button } from '@chakra-ui/react'
-import Modal from '../../components/modal/Modal'
+import Modal from '../../../components/modal/Modal'
 import { HiMiniServerStack, HiServer } from 'react-icons/hi2'
 import { IoIosAddCircle } from 'react-icons/io'
-import FormInput from '../../components/formInput/FormInput'
-import { useForm } from '../../components/formInput/useForm'
+import FormInput from '../../../components/formInput/FormInput'
+import { useForm } from '../../../components/formInput/useForm'
 
 const initForm = {
   serverId: '',
