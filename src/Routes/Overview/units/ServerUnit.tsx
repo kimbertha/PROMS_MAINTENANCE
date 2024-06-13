@@ -1,10 +1,11 @@
 import { Box, Text } from '@chakra-ui/react'
 import Status from  '../../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
-import { strToNum } from '../../../lib/functions'
+import { getMemoryValues, strToNum } from '../../../lib/functions'
 import { TbMailExclamation } from 'react-icons/tb'
-
+import { apiCaller } from '../../../lib/hooks'
 import '../overview.scss'
+import { serverMemoryUrl } from '../../../lib/api'
 interface ServerUnitProps {
   server: any;
   serverMode: boolean;
@@ -14,8 +15,9 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
   const navigate = useNavigate()
   
   const serverDsArray = server.instances.filter(instance => !instance.error)[0]?.dsArray
+  const memory = apiCaller(serverMemoryUrl(server.id, server.main))
 
-  const height = serverMode ? 'auto' : 'calc(100vh/4)' 
+  const height = serverMode ? 'auto' : 'calc(100vh/3.5)' 
   const borderColor = !serverDsArray ? 'red' : 'rgb(36, 36, 36)'
   const color = (use) => strToNum(use) > 80 ? 'red' : 'black' 
 
@@ -44,6 +46,13 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
 
   const instanceMode = (
     <>
+      {memory.data &&
+        <Box className='xsb' my='5px'>
+          <Text className='drives-titles'>RAM Usage</Text>
+          <Text fontSize='xs'>{memory.data && getMemoryValues(memory)}</Text>
+        </Box>
+      }
+
       <Box className='xsb drives-titles'>
         <Text>File System</Text>
         <Text>Used</Text>
@@ -62,6 +71,13 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
 
   const detailsMode = (
     <>
+      {memory.data &&
+        <Box className='xsb' my='5px'>
+          <Text className='drives-titles'>RAM Usage</Text>
+          <Text fontSize='xs'>{memory.data && getMemoryValues(memory)}</Text>
+        </Box>
+      }
+      
       <Text className='drives-titles'>Drives</Text>
       {serverDsArray?.map(value => 
         <Box pb={2} my={2} key={value.fileSystem} borderBottom='1px solid lightgrey'>
@@ -75,6 +91,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     </>
   )
 
+
   return (
 
     <Box className='server-container'
@@ -86,8 +103,11 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       </Box>
 
       
+
+      
       {serverDsArray && !serverMode && instanceMode}
       {serverMode && serverDsArray && detailsMode}
+      
       {!serverDsArray && <Text>ERROR</Text>}
       
 

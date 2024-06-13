@@ -31,7 +31,7 @@ const Instance = () => {
       element: <AuditLogs instance={instance}/>
     },{
       title: 'Backups',
-      element: <Backups instance={instance}/>
+      element: <Backups backups={instance?.backupArray} instance={instanceURL}/>
     },{
       title: 'Cron',
       element: <Cron instance={instance}/>

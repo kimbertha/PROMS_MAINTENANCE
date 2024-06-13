@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { dataURL, serverDiskSplitURL, serverLogFilesURL, serverMemoryUrl } from '../../lib/api'
 import { Box, Heading } from '@chakra-ui/react'
-import { cap, constructDsArray, memoryValues, strToNum } from '../../lib/functions'
+import { cap, constructDsArray, getMemoryValues, strToNum } from '../../lib/functions'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
 import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
@@ -63,10 +63,13 @@ const Server = () => {
           {diskSplit.data && diskSplit?.data.map((log, i) => <p key={i}>{log}</p>)}
         </TerminalConatiner>
       </Box>
-      <Box>
-        <Heading>Memory</Heading>
-        {memory.data && <p>{memoryValues(memory)[1]}/{memoryValues(memory)[0]}GB USED</p>}
-      </Box>
+      
+      {memory.data &&
+        <Box>
+          <Heading>Memory</Heading>
+          {getMemoryValues(memory)}
+        </Box>
+      }
 
       <Box>
         <Heading>CRON</Heading>

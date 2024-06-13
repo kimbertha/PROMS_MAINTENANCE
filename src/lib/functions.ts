@@ -12,4 +12,7 @@ export const constructDsArray = (dsArray) => {
     .sort((a, b) => strToNum(b.use) - strToNum(a.use)) 
 }
 
-export const memoryValues = (memory) => memory.data[1].replace(/ +(?= )/g, '').replace('Mem: ', '').split(' ').splice(0,2) 
+export const getMemoryValues = (memory) => {
+  const values = memory.data[1].replace(/ +(?= )/g, '').replace('Mem: ', '').split(' ').splice(0, 2) 
+  return `${values[1]}/${values[0]} GB`
+} 
