@@ -3,14 +3,14 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Box, Heading,  Text } from '@chakra-ui/react'
 
-import { pingURL } from '../../lib/api'
+import { logFilesURL, pingURL } from '../../lib/api'
 import AuditLogs from './AuditLogs'
 import LogFiles from './LogFiles'
 import Status from '../../components/status/Status'
 import Cron from './Cron'
 import Backups from './Backups'
 
-const Summary = ({ instance }) => {
+const Summary = ({ instance, logFiles }) => {
   const { server, instance: instanceURL } = useParams()
   const [pingStatus, setPingStatus] = useState(false)
 
@@ -18,6 +18,7 @@ const Summary = ({ instance }) => {
     const res = await axios.get(pingURL(server, instanceURL))
     setPingStatus(res.status === 200 ? true : false)
   }
+
 
   useEffect(() => {
     pingInstance()
@@ -65,7 +66,7 @@ const Summary = ({ instance }) => {
         <AuditLogs instance={instance} />
       </Box>
       
-      <LogFiles instance={instance}/>
+      <LogFiles logFiles={logFiles}/>
       <Cron instance={instance} />
       <Backups instance={instance}/>
 

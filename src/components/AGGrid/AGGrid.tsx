@@ -17,9 +17,9 @@ const AGGrid = ({ rows, columns, gridOptions, ...other }: AGGridProps) => {
   const defGridOptions = {
     defaultColDef: {
       editable: true,
-      enableRowGroup: true,
-      enablePivot: true,
-      enableValue: true,
+      // enableRowGroup: true,
+      // enablePivot: true,
+      // enableValue: true,
       filter: true,
       flex: 1,
       minWidth: 100

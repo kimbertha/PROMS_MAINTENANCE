@@ -1,82 +1,77 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import axios from 'axios'
-import { dataURL, headers, serverLogFilesURL } from '../../lib/api'
+import { dataURL, serverDiskSplitURL, serverLogFilesURL, serverMemoryUrl } from '../../lib/api'
 import { Box, Heading } from '@chakra-ui/react'
-import { cap, constructDsArray } from '../../lib/functions'
+import { cap, constructDsArray, memoryValues, strToNum } from '../../lib/functions'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
+import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
+import { apiCaller } from '../../lib/hooks'
 
 const Server = () => {
   const { server: serverId } = useParams()
-  const [serverLogs, setServerLogs] = useState([])
-  const [server, setServer] = useState<any>(null)
-  const [dsArray, setDsArray] = useState([])
-  
   const main = dataObj.filter(obj => obj.id === serverId)[0].main
 
-  useEffect(() => {
-    getServerData()
-    getServerLogs()
-  }, [])
-
-  const getServerLogs = async () => {
-    setServerLogs((await axios.get(serverLogFilesURL(serverId, main), headers)).data)
-  }
-  
-  const getServerData = async () => {
-    setServer((await axios.get(dataURL(serverId, main), headers)).data)
-  }
+  const memory = apiCaller(serverMemoryUrl(serverId, main))
+  const serverLogs = apiCaller(serverLogFilesURL(serverId, main))
+  const diskSplit = apiCaller(serverDiskSplitURL(serverId, main))
+  const server = apiCaller(dataURL(serverId, main))
 
 
-  useEffect(() => {
-    
-    server && setDsArray(constructDsArray(server.dsArray))
-  }, [server])
   
   const tableCols = [
     { field: 'fileSystem',
       headerName: 'File System'
     },
+    { field: 'use',
+      headerName: 'Use',
+      sortingOrder: ['desc'],
+      cellRenderer: ({ value }) => <p style={{ color: strToNum(value) > 80 ? 'red' : 'auto' }}> {value}</p> 
+
+    },
+    {
+      field: 'used',
+      headerName: 'Used'
+    },
     { field: 'size',
       headerName: 'Size'
     },
-    { field: 'used',
-      headerName: 'Used'
-    },
     { field: 'avail',
       headerName: 'Avail'
-    },
-    { field: 'use',
-      headerName: 'Use'
     },
     { field: 'mountedOn',
       headerName: 'Mounted On'
     }]
   
-
-
   
-
-  console.log(dsArray)
-  if (!server) return null
   return (
     <Box>
 
       <Heading>{cap(serverId)}</Heading>
-      <AGGrid rows={constructDsArray(server.dsArray)} columns={tableCols} pagination={false} />
+      {server.data && <AGGrid rows={constructDsArray(server.data.dsArray)} columns={tableCols} pagination={false} />}
 
       <Box>
         <Heading>Server Logs</Heading>
-        <Box className='server-logs-container'>
-          {serverLogs?.map((log,i) => <p key={i}>{log}</p>)}
-        </Box>
+        <TerminalConatiner loading={serverLogs.loading} height='60vh'>
+          {serverLogs.data && serverLogs?.data.map((log, i) => <p key={i}>{log}</p>)}
+        </TerminalConatiner>
+      </Box>
+
+      <Box>
+        <Heading>Disk Split</Heading>
+        <TerminalConatiner loading={memory.loading} height='60vh'>
+          {diskSplit.data && diskSplit?.data.map((log, i) => <p key={i}>{log}</p>)}
+        </TerminalConatiner>
+      </Box>
+      <Box>
+        <Heading>Memory</Heading>
+        {memory.data && <p>{memoryValues(memory)[1]}/{memoryValues(memory)[0]}GB USED</p>}
       </Box>
 
       <Box>
         <Heading>CRON</Heading>
         <Box className='server-logs-container'>
-          {server?.cronArray && server?.cronArray.map((log,i) => <p key={i}>{log}</p>)}
+          {server.data && server?.data.cronArray && server?.data.cronArray.map((log,i) => <p key={i}>{log}</p>)}
         </Box>
       </Box>
 

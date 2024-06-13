@@ -1,11 +1,13 @@
 import React from 'react'
 import { Heading, Box } from '@chakra-ui/react'
 import Status from '../../components/status/Status'
-const LogFiles = ({ instance }) => {
+import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
 
-  //values
 
-  const data : Array<string|string[]> = instance?.logFiles.reverse().map(log =>
+const LogFiles = ({ logFiles }) => {
+  
+
+  const data : Array<string|string[]> = logFiles?.data?.reverse().map(log =>
     log.includes('[Thread') ?
       [...log.split('  - ')[0].split(' ').filter(log => log !== ''), ...[log.split('  - ')[1]]]
       : log)
@@ -26,11 +28,11 @@ const LogFiles = ({ instance }) => {
       <Box display='flex' justifyContent='space-between' alignItems='center' p={4}>
         <Heading size='md'>Logfiles</Heading>
         <Box display='flex'>
-          {Object.entries(counts).map((entry: [string, number]) => <Box className='tableCount'>{entry[0]} {entry[1]}</Box>)}
+          {Object.entries(counts).map((entry: [string, number]) => <Box key={entry[0]} className='tableCount'>{entry[0]} {entry[1]}</Box>)}
         </Box>
       </Box>
 
-      <Box className='logs-container'>
+      <TerminalConatiner height='60vh' loading={logFiles.loading}>
         {data?.map((log, i) => 
           <Box display='flex' key={i}>
             {typeof log !== 'string' && <Status status={log[3] === 'ERROR' ? false : true} />}
@@ -42,8 +44,9 @@ const LogFiles = ({ instance }) => {
             </p>
           </Box>
         )}
-      </Box>
+      </TerminalConatiner>
     </Box>
+
   )
 }
 

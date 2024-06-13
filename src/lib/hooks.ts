@@ -18,3 +18,26 @@ export const getPing = (server,instance)=> {
   
   return { pingStatus }
 }
+
+
+export const apiCaller = ( url)  => {
+  const [data, setData] = useState<any>()
+  const [error, setError] = useState()
+  const [loading,setLoading] = useState<boolean>()
+
+  const getData = async () => {
+    try {
+      setLoading(true)
+      setData((await axios.get(url, headers)).data)
+      setLoading(false)
+    } catch (err) {
+      console.log(err)
+      setError(err)
+    }
+  }
+  useEffect(() => {
+    getData()
+  }, [])
+  
+  return { data, error, loading }
+}

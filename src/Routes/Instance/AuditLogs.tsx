@@ -1,6 +1,5 @@
 import React from 'react'
 import { Box, Heading } from '@chakra-ui/react'
-import Table from '../../components/table/Table'
 import { colors } from '../../lib/vars'
 import AGGrid from '../../components/AGGrid/AGGrid'
 
