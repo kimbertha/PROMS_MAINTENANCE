@@ -9,7 +9,9 @@ import { TbMailExclamation } from 'react-icons/tb'
 
 import { getPing } from '../../../lib/hooks'
 import { pingURL } from '../../../lib/api'
-
+import { getLastBackup, isolateInstanceBackups } from '../../../lib/functions'
+import moment from 'moment'
+import Backups from '../../Instance/Backups'
 
 
 interface InstanceUnitProps {
@@ -21,19 +23,29 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   const navigate = useNavigate()
   const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
   const { pingStatus } = getPing(server, instance.id)
+  // const backups = getBackupValues(instance?.backupArray)
+  // console.log(backups)
 
+  // console.log(instance.backupArray)
+  
+  const backup = instance.backupArray && getLastBackup(isolateInstanceBackups(instance.backupArray, instance.title)) 
+  
   const details = [{
-    title: 'Historical',
-    field: 'historicalDir'
+    title: 'Last Backup',
+    field: backup && moment(backup.date).format('Do MMMM YYYY')
   }
   ,
-  { title: 'Input',
-    field: 'inputDir'
-  },
-  { title: 'Output',
-    field: 'outputDir'
-  }]
+  {
+    title: 'Backup Size',
+    field: backup && backup.size
+  }
+  // {
+  //   title: 'Last Login',
+  //   field: backup && backup.size
+  // }
+  ]
 
+  console.log(instance)
   
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
@@ -59,15 +71,14 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
         <>
           <Box flexGrow={1} overflow='scroll'>
             {details.map(d => 
+              d.field &&
               <Box className='xsb' key={d.field}>
                 <Text className='bold'>{d.title}</Text>
-                <Text>{instance[d.field]}</Text>
+                <Text>{d.field}</Text>
+                {/* <Text>{instance[d.field]}</Text> */}
               </Box>
             )}
-            <Box mt={1}>
-              <Text className='bold'>Database</Text>
-              <Text>{instance.databaseURL}</Text>
-            </Box>
+            
           </Box>
           <Text className='expand' onClick={() => navigate(`${server}/${instance.id}`)}>See More...</Text>
         </>

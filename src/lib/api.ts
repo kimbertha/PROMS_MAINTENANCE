@@ -18,29 +18,23 @@ export const serverMemoryUrl = (server: string, instance: string) => `https://${
 
 //hard coded 
 export const dataObj = [
-  // {
-  //   id: 'delta',
-  //   title: 'Fake',
-  //   instances: [{
-  //     id: 'tesst',
-  //     title: 'Fake'
-  //   },
-  //   {
-  //     id: 'template',
-  //     title: 'Template'
-  //   }]
-  // },
   {
     id: 'delta',
     title: 'Delta',
     main: 'test',
     instances: [{
       id: 'test',
-      title: 'Test'
+      title: 'Test',
+      api: true
+    },{
+      id: 'demo',
+      title: 'Demo',
+      api: false
     },
     {
       id: 'template',
-      title: 'Template'
+      title: 'Template',
+      api: true
     }]
   },
   {
@@ -48,7 +42,16 @@ export const dataObj = [
     title: 'Echo',
     instances: [{
       id: 'test',
-      title: 'Test'
+      title: 'Test',
+      api: true
+    },{
+      id: 'unittest',
+      title: 'Unittest',
+      api: false
+    },{
+      id: 'gatehouse',
+      title: 'Gatehouse',
+      api: false
     }]
   },
   {
@@ -56,7 +59,8 @@ export const dataObj = [
     title: 'Cold',
     instances: [{
       id: 'amdev',
-      title: 'Test'
+      title: 'Test',
+      api: true
     }]
   }
 ]

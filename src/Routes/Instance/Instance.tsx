@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { Box, Heading, Button  } from '@chakra-ui/react'
 import { dataURL, logFilesURL } from '../../lib/api'
-import { cap } from '../../lib/functions'
+import { cap, getBackupValues, isolateInstanceBackups } from '../../lib/functions'
 import { TbMailExclamation } from 'react-icons/tb'
 
 import TabsMenu from '../../components/page-menu/TabsMenu'
@@ -21,6 +21,8 @@ const Instance = () => {
 
   const instance = apiCaller(dataURL(server, instanceURL)).data
   const logFiles = apiCaller(logFilesURL(server, instance))
+
+  
 
   const tabElements = [
     {
