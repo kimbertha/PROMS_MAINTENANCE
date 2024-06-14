@@ -28,7 +28,6 @@ export const apiCaller = ( url)  => {
   const getData = async () => {
     try {
       setLoading(true)
-      console.log('FIRED')
       setData((await axios.get(url, headers)).data)
       setLoading(false)
     } catch (err) {

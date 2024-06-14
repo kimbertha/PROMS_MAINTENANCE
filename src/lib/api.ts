@@ -25,7 +25,8 @@ export const dataObj = [
     instances: [{
       id: 'test',
       title: 'Test',
-      api: true
+      api: true,
+      backupId: 'test'
     },{
       id: 'demo',
       title: 'Demo',
@@ -44,15 +45,19 @@ export const dataObj = [
     instances: [{
       id: 'test',
       title: 'Test',
-      api: true
+      api: true,
+      backupId: 'test'
+   
     },{
       id: 'unittest',
       title: 'Unittest',
-      api: false
+      api: false,
+      backupId: 'test'
     },{
       id: 'gatehouse',
       title: 'Gatehouse',
-      api: false
+      api: false,
+      backupId: 'GHB'
     }]
   },
   {
@@ -61,7 +66,8 @@ export const dataObj = [
     instances: [{
       id: 'amdev',
       title: 'Test',
-      api: true
+      api: true,
+      backupId: 'AMDEV'
     }]
   }
 ]

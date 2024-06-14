@@ -18,7 +18,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
   const dsArray = activeInstance?.dsArray
   const memory = apiCaller(serverMemoryUrl(server.id, server.main))
 
-  const height = serverMode ? 'auto' : 'calc(100vh/3.5)' 
+  const height = serverMode ? 'auto' : 'calc(100vh/3.8)' 
   const borderColor = !dsArray ? 'red' : 'rgb(36, 36, 36)'
   const color = (use) => strToNum(use) > 80 ? 'red' : 'black' 
 

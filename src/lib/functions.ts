@@ -26,22 +26,25 @@ export const getMemoryValues = (memory) => {
 
 export const isolateInstanceBackups = (backupsArray, instance) => {
   const first = backupsArray.indexOf(instance.toUpperCase())
-  const last = backupsArray.slice(first).findIndex((value,i) => i !== 0 && !value.includes('root root'))
-  return backupsArray.slice(first + 1, last).slice(1)
+  if (first > -1) {
 
+    const last = backupsArray.slice(first).findIndex((value, i) => i !== 0 && !value.includes('postgres postgres') && !value.includes('root') )
+    return backupsArray.slice(first + 1, last).slice(1)
+  } else return null
 }
 
 export const getLastBackup = (backupValues) => {
+  if (backupValues) {
+    const arr = backupValues.map(backup => {
+      const arr = backup.replace(/\s+/g, ' ').split(' ')
+      const date = moment(arr.slice(8)[0].replace(/\D/g, '').slice(0, 8), 'YYYYMMDD')
+      const size = arr.slice(4)[0]
+      return { size, date }
+    })
 
-  const arr = backupValues.map(backup => {
-    const arr = backup.replace(/\s+/g, ' ').split(' ')
-    const date = moment(arr.slice(8)[0].replace(/\D/g, '').slice(0, 8), 'YYYYMMDD')
-    const size = arr.slice(4)[0]
-    return { size, date }
-  })
-
-  const lastBackupDate = moment.max(arr.filter(val => val.date._isValid).map(val => val.date))
-  return arr[arr.findIndex(val => val.date === lastBackupDate)]
+    const lastBackupDate = moment.max(arr.filter(val => val.date._isValid).map(val => val.date))
+    return arr[arr.findIndex(val => val.date === lastBackupDate)]
+  }
 }
 
 

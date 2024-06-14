@@ -24,10 +24,11 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   
 
   if (!instance) return null
-  const backup = instance.backupArray && getLastBackup(isolateInstanceBackups(instance.backupArray, instance.title)) 
+  const backup = instance.backupArray && getLastBackup(isolateInstanceBackups(instance.backupArray, instance.backupId)) 
   const lastLogin = instance.auditLogs && getLastLogin(instance.auditLogs)
   const cronTime = instance.cronArray && instance.cronArray.filter(val => val.includes('sudo -u postgres pg_dump -U postgres') && val.includes(instance.id))[0]
   const cronVal = cronTime && cronTime.split(' ')[0].replace('@', '')
+
 
   const checkBackupFreq = () => {
     const yesterday = moment().subtract(1, 'days')
@@ -55,11 +56,10 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   },
   {
     title: 'Backup Freq',
-    field: cronVal && <span style={{ color: checkBackupFreq() ? 'green' : 'red' }}>{cronVal}</span>
+    field: cronVal && backup &&  <span style={{ color: checkBackupFreq() ? 'green' : 'red' }}>{cronVal}</span>
   }]
 
 
-  checkBackupFreq()
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
