@@ -40,6 +40,7 @@ export const dataObj = [
   {
     id: 'echo',
     title: 'Echo',
+    main: 'test',
     instances: [{
       id: 'test',
       title: 'Test',

@@ -45,3 +45,9 @@ export const getLastBackup = (backupValues) => {
 }
 
 
+// AUDIT LOGS 
+
+export const getLastLogin = (logs) => {
+  return logs.filter(log => log.description === 'Successful Login Complete').sort((a,b) => b.created - a.created)[0]
+  
+}
