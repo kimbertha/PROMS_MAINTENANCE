@@ -19,8 +19,6 @@ const Summary = ({ instance, logFiles , server }) => {
     setPingStatus(res.status === 200 ? true : false)
   }
 
-  console.log(logFiles)
-
   useEffect(() => {
     pingInstance()
   }, [])

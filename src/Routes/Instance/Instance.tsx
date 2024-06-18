@@ -25,6 +25,7 @@ const Instance = () => {
   const server = apiCaller(dataURL(serverURL, main)).data
   const logFiles = apiCaller(logFilesURL(serverURL, instanceURL))
   
+  
   const tabElements = [
     {
       title: 'Summary',

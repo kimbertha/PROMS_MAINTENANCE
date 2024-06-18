@@ -6,15 +6,13 @@ import { isolateBackups } from '../../lib/functions/functions'
 
 
 const Backups = ({ backups, instance, server }) => {
-
-  if (!backups) return null
-
   const titles = ['title', 'unit', 'db1', 'db2', 'size', 'month', 'day', 'time', 'name']
   const colors = ['rgb(9, 175, 175)','rgb(3, 116, 116)', 'rgb(149, 35, 149)', 'rgb(149, 35, 149)','rgb(215, 197, 2)', 'white']
 
   const backupId = dataObj.filter(obj => obj.id === server)[0].instances.filter(inst => inst.id === instance)[0].backupId
-  const isolate = isolateBackups(backups, backupId)
+  const isolate = backups && isolateBackups(backups, backupId)
 
+  if (!isolate) return null
   const objs = constructObject(isolate, titles )
   return (
     <>

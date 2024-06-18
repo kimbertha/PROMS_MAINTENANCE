@@ -5,10 +5,9 @@ import AGGrid from '../../components/AGGrid/AGGrid'
 
 const AuditLogs = ({ auditLogs }) => {
   if (!auditLogs) return null
-  
+
   const nameColors = Array.from(new Set(auditLogs.map(log => log.username)))
   const customerColors = Array.from(new Set(auditLogs.map(log => log.customer)))
-
 
   const AGGridCols = [
     { headerName: 'Username',
@@ -29,28 +28,6 @@ const AuditLogs = ({ auditLogs }) => {
       field: 'created'
     }
   ]
-  
-  const tableCols = [
-    { field: 'fileSystem',
-      headerName: 'File System'
-    },
-    { field: 'size',
-      headerName: 'Size'
-    },
-    { field: 'used',
-      headerName: 'Used'
-    },
-    { field: 'avail',
-      headerName: 'Avail'
-    },
-    { field: 'use',
-      headerName: 'Use'
-    },
-    { field: 'mountedOn',
-      headerName: 'Mounted On'
-    }]
-
-  
   
   return (
 
