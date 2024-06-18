@@ -68,7 +68,7 @@ const Summary = ({ instance, logFiles }) => {
       
       <LogFiles logFiles={logFiles}/>
       <Cron instance={instance} />
-      <Backups instance={instance}/>
+      <Backups instance={instance.backup} backups={instance?.backupArray}/>
 
     </>
     

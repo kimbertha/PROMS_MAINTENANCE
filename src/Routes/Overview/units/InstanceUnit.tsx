@@ -5,10 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { HiOutlineStatusOnline } from 'react-icons/hi'
 import { MdOutlineCrisisAlert } from 'react-icons/md'
 import { TbMailExclamation } from 'react-icons/tb'
-
 import { getPing } from '../../../lib/hooks'
 import { pingURL } from '../../../lib/api'
-import { getLastBackup, isolateInstanceBackups, getLastLogin } from '../../../lib/functions'
+import { getCronFreq, getLastBackup, getLastLogin } from '../../../lib/functions/functions'
 import moment from 'moment'
 
 interface InstanceUnitProps {
@@ -21,28 +20,12 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
   const { pingStatus } = getPing(server, instance.id)
 
-  if (!instance) return null
-  const backup = instance.backupArray && getLastBackup(isolateInstanceBackups(instance.backupArray, instance.backupId)) 
-  const lastLogin = instance.auditLogs && getLastLogin(instance.auditLogs)
-  const cronTime = instance.cronArray && instance.cronArray.filter(val => val.includes('sudo -u postgres pg_dump -U postgres') && val.includes(instance.id))[0]
-  const cronVal = cronTime && cronTime.split(' ')[0].replace('@', '')
-
-
-  const checkBackupFreq = () => {
-    const yesterday = moment().subtract(1, 'days')
-    const lastWeek = moment().subtract(7, 'days')
-    const lastMonth = moment().subtract(1, 'months')
-
-    if (cronVal === 'weekly') {
-      const test = backup.date.isBetween(lastWeek, moment())
-      return test
-    }
-  }
+  const backup = instance.backupArray && getLastBackup(instance.backupArray, instance.backupId) || null
+  const cronFreq = instance.cronArray && backup && getCronFreq(instance.cronArray, instance.id, backup.date) 
 
   const details = [{
     title: 'Last Backup',
     field: backup && moment(backup.date).format('Do MMMM YYYY')
-    
   },
   {
     title: 'Backup Size',
@@ -50,11 +33,11 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   },
   {
     title: 'Last Login',
-    field: lastLogin.username
+    field: instance.auditLogs && getLastLogin(instance.auditLogs).username
   },
   {
     title: 'Backup Freq',
-    field: cronVal && backup &&  <span style={{ color: checkBackupFreq() ? 'green' : 'red' }}>{cronVal}</span>
+    field: <span style={{ color: cronFreq?.check ? 'green' : 'red' }}>{cronFreq?.path}</span>
   }]
 
 

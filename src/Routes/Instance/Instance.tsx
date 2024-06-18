@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Heading, Button  } from '@chakra-ui/react'
+import { Box, Heading } from '@chakra-ui/react'
 import { dataURL, logFilesURL } from '../../lib/api'
-import { cap, getBackupValues, isolateInstanceBackups } from '../../lib/functions'
+import { cap } from '../../lib/functions/helpers'
 import { TbMailExclamation } from 'react-icons/tb'
 
 import TabsMenu from '../../components/page-menu/TabsMenu'

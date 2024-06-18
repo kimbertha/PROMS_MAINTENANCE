@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 export const colors = [
   '#7ecadf',
   '#eacf9a',
@@ -11,10 +13,16 @@ export const colors = [
   '#534b3f'	
 ]
 
-const customerColors = [
+export const customerColors = [
   '#8bbdff',
   '#ffc3f7',
   '#b06aae',
   '#8affa0',
   '#f28482'
 ]
+
+export const dates = {
+  daily: moment().subtract(1, 'days'),
+  weekly: moment().subtract(7, 'days'),
+  monthly: moment().subtract(1, 'months')
+}
