@@ -1,7 +1,15 @@
 import moment from 'moment'
 
 
+
+
 // HELPERS
+export const constructObject = (arr, keys) => {
+  // const chooseIndexes = arr.filter((val, i) => !removeIndex.includes(i))
+  const obj = arr.map(val => val.replace(/\s+/g, ' ').split(' '))
+    .map(arr => Object.fromEntries(arr.map((val, i) => [keys[i], val])))
+  return  obj
+}
 
 export const strToNum = (string) => parseFloat(string.replace(/[^0-9$.,]/g, ''))
 export const cap = (string) => string.charAt(0).toUpperCase() + string.slice(1)
@@ -10,20 +18,24 @@ export const cap = (string) => string.charAt(0).toUpperCase() + string.slice(1)
 
 //DS ARRAY
 export const constructDsArray = (dsArray) => {
-  const arr =  dsArray.map(str => str.split(' ').filter(Boolean)).slice(1)
-  return arr.map(([fileSystem, size, used, avail, use, mountedOn]) => ({ fileSystem, size, used, avail, use, mountedOn }))
+  const arr = constructObject(dsArray, ['fileSystem', 'size', 'used', 'avail', 'use', 'mountedOn'])
     .filter(drive => drive.fileSystem.includes('/dev') && strToNum(drive.use) >= 0)
     .sort((a, b) => strToNum(b.use) - strToNum(a.use)) 
+  return arr
 }
 
 // MEMORY
 export const getMemoryValues = (memory) => {
-  const values = memory.data[1].replace(/ +(?= )/g, '').replace('Mem: ', '').split(' ').splice(0, 2) 
-  return `${values[1]}/${values[0]} GB`
-} 
+  const memoryValues = constructObject([memory[1]], ['title','total','used'])[0]
+  return `${memoryValues?.used}/${memoryValues?.total} GB`
+}
+
+// AUDIT LOGS 
+export const getLastLogin = (logs) => {
+  return logs.filter(log => log.description === 'Successful Login Complete').sort((a,b) => b.created - a.created)[0]
+}
 
 //BACKUPS
-
 export const isolateInstanceBackups = (backupsArray, instance) => {
   const first = backupsArray.indexOf(instance.toUpperCase())
   if (first > -1) {
@@ -47,8 +59,6 @@ export const getLastBackup = (backupValues) => {
   }
 }
 
-// AUDIT LOGS 
-export const getLastLogin = (logs) => {
-  return logs.filter(log => log.description === 'Successful Login Complete').sort((a,b) => b.created - a.created)[0]
-  
-}
+
+
+

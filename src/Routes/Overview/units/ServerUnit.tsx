@@ -1,11 +1,12 @@
 import { Box, Text } from '@chakra-ui/react'
 import Status from  '../../../components/status/Status'
 import { useNavigate } from 'react-router-dom'
-import { getMemoryValues, strToNum } from '../../../lib/functions'
+import { constructObject, strToNum, getMemoryValues } from '../../../lib/functions'
 import { TbMailExclamation } from 'react-icons/tb'
 import { apiCaller } from '../../../lib/hooks'
 import '../overview.scss'
 import { serverMemoryUrl } from '../../../lib/api'
+
 interface ServerUnitProps {
   server: any;
   serverMode: boolean;
@@ -17,7 +18,6 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
   const activeInstance = server.instances.filter(instance => !instance.error)[0]
   const dsArray = activeInstance?.dsArray
   const memory = apiCaller(serverMemoryUrl(server.id, server.main))
-  console.log(memory)
 
   const height = serverMode ? 'auto' : 'calc(100vh/3.8)' 
   const borderColor = !dsArray ? 'red' : 'rgb(36, 36, 36)'
@@ -45,15 +45,12 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     }
   ]
 
-  
-
-
   const instanceMode = (
     <>
       {memory.data &&
         <Box className='xsb' my='5px'>
           <Text className='drives-titles'>RAM Usage</Text>
-          <Text fontSize='xs'>{memory.data && getMemoryValues(memory)}</Text>
+          <Text fontSize='xs'>{memory.data && getMemoryValues(memory.data)}</Text>
         </Box>
       }
 
@@ -78,7 +75,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
       {memory.data &&
         <Box className='xsb' my='5px'>
           <Text className='drives-titles'>RAM Usage</Text>
-          <Text fontSize='xs'>{memory.data && getMemoryValues(memory)}</Text>
+          <Text fontSize='xs'>{memory.data && getMemoryValues(memory.data) }</Text>
         </Box>
       }
       
@@ -95,9 +92,7 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
     </>
   )
 
-
   return (
-
     <Box className='server-container'
       height={height} style={{ borderTop: `20px solid ${borderColor}` }}>
 
@@ -106,15 +101,10 @@ const ServerUnit = ({ server, serverMode }: ServerUnitProps) => {
         {!dsArray && <TbMailExclamation className='alert-icon' />}
       </Box>
 
-      
-
-      
       {dsArray && !serverMode && instanceMode}
       {serverMode && dsArray && detailsMode}
       
       {!dsArray && <Text>ERROR</Text>}
-      
-
     </Box>
   )
 }

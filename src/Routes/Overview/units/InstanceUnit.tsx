@@ -21,8 +21,6 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
   const { pingStatus } = getPing(server, instance.id)
 
-  
-
   if (!instance) return null
   const backup = instance.backupArray && getLastBackup(isolateInstanceBackups(instance.backupArray, instance.backupId)) 
   const lastLogin = instance.auditLogs && getLastLogin(instance.auditLogs)

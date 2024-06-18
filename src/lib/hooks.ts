@@ -29,7 +29,6 @@ export const apiCaller = ( url)  => {
     try {
       setLoading(true)
       const data = (await axios.get(url, headers)).data
-      console.log(data)
       setData(data)
       setLoading(false)
     } catch (err) {

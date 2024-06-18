@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { dataURL, serverDiskSplitURL, serverLogFilesURL, serverMemoryUrl } from '../../lib/api'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Heading, Text } from '@chakra-ui/react'
 import { cap, constructDsArray, getMemoryValues, strToNum } from '../../lib/functions'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
@@ -13,6 +13,7 @@ const Server = () => {
   const main = dataObj.filter(obj => obj.id === serverId)[0].main
 
   const memory = apiCaller(serverMemoryUrl(serverId, main))
+
   const serverLogs = apiCaller(serverLogFilesURL(serverId, main))
   const diskSplit = apiCaller(serverDiskSplitURL(serverId, main))
   const server = apiCaller(dataURL(serverId, main))
@@ -67,7 +68,7 @@ const Server = () => {
       {memory.data &&
         <Box>
           <Heading>Memory</Heading>
-          {getMemoryValues(memory)}
+          <Text>{getMemoryValues(memory.data)}</Text>
         </Box>
       }
 

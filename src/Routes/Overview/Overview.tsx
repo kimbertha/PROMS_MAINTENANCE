@@ -9,6 +9,7 @@ import InstanceUnit from './units/InstanceUnit'
 import ServerHeader from './OverviewHeader'
 import NewInstance from './forms/NewInstance'
 import { useModal } from '../../components/modal/useModal'
+import { constructObject } from '../../lib/functions'
 
 const Overview = () => {
   const [serverData, setServerData] = useState<any>([])
@@ -22,6 +23,7 @@ const Overview = () => {
       server.instances.some(instance => instance.title.toLowerCase().includes(searchValue.toLowerCase()))
     || server.title.toLowerCase().includes(searchValue.toLowerCase()))
     : serverData
+  
 
   const constructData = async () => {
     const obj = await Promise.all(dataObj.map(async server => 
@@ -31,6 +33,7 @@ const Overview = () => {
             try {
               const req = (await axios.get(dataURL(server.id, instance.api ?  instance.id : server.main), headers)).data
               return { ...instance, ...req, dsArray: constructDsArray(req.dsArray) }
+              
             } catch (err) {
               console.log(err)
               return { ...instance, error: err.message }
