@@ -14,13 +14,10 @@ const Server = () => {
   const main = dataObj.filter(obj => obj.id === serverId)[0].main
 
   const memory = apiCaller(serverMemoryUrl(serverId, main))
-
   const serverLogs = apiCaller(serverLogFilesURL(serverId, main))
   const diskSplit = apiCaller(serverDiskSplitURL(serverId, main))
   const server = apiCaller(dataURL(serverId, main))
 
-
-  
   const tableCols = [
     { field: 'fileSystem',
       headerName: 'File System'
@@ -44,7 +41,6 @@ const Server = () => {
     { field: 'mountedOn',
       headerName: 'Mounted On'
     }]
-  
   
   return (
     <Box>

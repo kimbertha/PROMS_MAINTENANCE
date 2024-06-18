@@ -31,19 +31,25 @@ export const getCronFreq = (cronArr, instance, date) => {
 }
 
 //BACKUPS
-export const getLastBackup = (backupValues, instance) => {
+
+export const isolateBackups = (backupValues, instance) => {
   const first = backupValues.indexOf(instance.toUpperCase())
   if (first > -1) {
-    const last = backupValues.slice(first).findIndex((value, i) => i !== 0 && !value.includes('postgres') && !value.includes('root') )
-    const isolated = backupValues.slice(first + 1, last).slice(1)
-    if (isolated) {
-      const constructObj = constructObject(isolated, ['size', 'name'], [4, 8])
-      const withDate = constructObj.map(val => ({ ...val, date: moment(val.name.replace(/\D/g, '').slice(0, 8)) }))
-        .filter(val => val.date._isValid)
-        .sort((a, b) => (b.date).diff(a.date))
-      return withDate[0]
-    } 
+    const last = backupValues.slice(first).findIndex((value, i) => i !== 0 && !value.includes('postgres') && !value.includes('root'))
+    return backupValues.slice(first + 1, last).slice(1)
   }
 }
+
+export const getLastBackup = (backupValues, instance) => {
+  const isolated = isolateBackups(backupValues, instance)
+  if (isolated) {
+    const constructObj = constructObject(isolated, ['size', 'name'], [4, 8])
+    const withDate = constructObj.map(val => ({ ...val, date: moment(val.name.replace(/\D/g, '').slice(0, 8)) }))
+      .filter(val => val.date._isValid)
+      .sort((a, b) => (b.date).diff(a.date))
+    return withDate[0]
+  } 
+}
+
 
 

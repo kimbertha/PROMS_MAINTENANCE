@@ -14,26 +14,27 @@ import Summary from './Summary'
 import './instance.scss'
 import LogFiles from './LogFiles'
 import { apiCaller } from '../../lib/hooks'
-
+import { isolateBackups } from '../../lib/functions/functions'
+import { dataObj } from '../../lib/api'
 
 const Instance = () => {
-  const { server, instance: instanceURL } = useParams()
+  const { server: serverURL, instance: instanceURL } = useParams()
+  const main = dataObj.filter(obj => obj.id === serverURL)[0].main
 
-  const instance = apiCaller(dataURL(server, instanceURL)).data
-  const logFiles = apiCaller(logFilesURL(server, instance))
-
+  const instance = apiCaller(dataURL(serverURL, instanceURL)).data
+  const server = apiCaller(dataURL(serverURL, main)).data
+  const logFiles = apiCaller(logFilesURL(serverURL, instanceURL))
   
-
   const tabElements = [
     {
       title: 'Summary',
-      element: <Summary logFiles={logFiles} instance={instance}/>
+      element: <Summary logFiles={logFiles} instance={instance} server={server} />
     },{
       title: 'Audit Logs',
-      element: <AuditLogs instance={instance}/>
+      element: <AuditLogs auditLogs={server?.auditLogs}/>
     },{
       title: 'Backups',
-      element: <Backups backups={instance?.backupArray} instance={instanceURL}/>
+      element: <Backups backups={server?.backupArray} server={serverURL} instance={instanceURL} />
     },{
       title: 'Cron',
       element: <Cron instance={instance}/>
@@ -48,7 +49,7 @@ const Instance = () => {
     <Box className='container'>
       <Box display='flex' justifyContent='space-between' alignItems='center'>
         <Box>
-          <Heading size='lg'>{cap(server)} {cap(instanceURL)}</Heading>
+          <Heading size='lg'>{cap(serverURL)} {cap(instanceURL)}</Heading>
           <small>PROMS maintenance panel</small>
         </Box>
         <TbMailExclamation size='1.5em' />

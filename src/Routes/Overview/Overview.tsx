@@ -11,8 +11,6 @@ import InstanceUnit from './units/InstanceUnit'
 import ServerHeader from './OverviewHeader'
 import NewInstance from './forms/NewInstance'
 
-
-
 const Overview = () => {
   const [serverData, setServerData] = useState<any>([])
   const [serverMode, setServerMode] = useState(false)

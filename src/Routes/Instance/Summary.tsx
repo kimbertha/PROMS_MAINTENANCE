@@ -10,15 +10,16 @@ import Status from '../../components/status/Status'
 import Cron from './Cron'
 import Backups from './Backups'
 
-const Summary = ({ instance, logFiles }) => {
-  const { server, instance: instanceURL } = useParams()
+const Summary = ({ instance, logFiles , server }) => {
+  const { server: serverURL, instance: instanceURL } = useParams()
   const [pingStatus, setPingStatus] = useState(false)
 
   const pingInstance = async () => {
-    const res = await axios.get(pingURL(server, instanceURL))
+    const res = await axios.get(pingURL(serverURL, instanceURL))
     setPingStatus(res.status === 200 ? true : false)
   }
 
+  console.log(logFiles)
 
   useEffect(() => {
     pingInstance()
@@ -29,7 +30,7 @@ const Summary = ({ instance, logFiles }) => {
       header: 'URL',
       component: <Box display='flex' alignContent='center' alignItems='center'>
         <Status status={pingStatus} />
-        <a href={pingURL(server, instanceURL)}><Text>{pingURL(server, instanceURL).split('/#')[0]}</Text></a>
+        <a href={pingURL(serverURL, instanceURL)}><Text>{pingURL(serverURL, instanceURL).split('/#')[0]}</Text></a>
       </Box>
     },
     {
@@ -45,8 +46,8 @@ const Summary = ({ instance, logFiles }) => {
       header: 'Historical DIR',
       id: 'historicalDir'
     }]
-  
-  if (!instance) return null
+
+  if (!server) return null
 
   return (
     <>
@@ -63,12 +64,12 @@ const Summary = ({ instance, logFiles }) => {
             )}
           </Box>
         </Box>
-        <AuditLogs instance={instance} />
+        <AuditLogs auditLogs={server?.auditLogs} />
       </Box>
       
       <LogFiles logFiles={logFiles}/>
-      <Cron instance={instance} />
-      <Backups instance={instance.backup} backups={instance?.backupArray}/>
+      {instance && <Cron instance={instance} />}
+      <Backups instance={instanceURL} server={serverURL} backups={server?.backupArray} />
 
     </>
     
