@@ -28,12 +28,15 @@ export const apiCaller = ( url)  => {
   const getData = async () => {
     try {
       setLoading(true)
-      setData((await axios.get(url, headers)).data)
+      const data = (await axios.get(url, headers)).data
+      console.log(data)
+      setData(data)
       setLoading(false)
     } catch (err) {
       setError(err)
     }
   }
+
   useEffect(() => {
     getData()
   }, [])
