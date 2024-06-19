@@ -1,6 +1,12 @@
-import React from 'react'
-import { Box, Heading } from '@chakra-ui/react'
+import React, { useState } from 'react'
+import { Box, Heading, Button } from '@chakra-ui/react'
 import { ClipLoader } from 'react-spinners'
+import { MdLightMode, MdDarkMode } from 'react-icons/md'
+import { TiCancel } from 'react-icons/ti'
+import { FaAngleDown, FaAngleUp } from 'react-icons/fa'
+import { PiMouseScroll } from 'react-icons/pi'
+import { IoMdSearch } from 'react-icons/io'
+
 import './terminal.scss'
 
 interface TerminalConatinerProps {
@@ -9,11 +15,34 @@ interface TerminalConatinerProps {
   height?: string;
   countValues?: any;
   header: string;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean>>;
+  showButtons:boolean
 }
-const TerminalConatiner = ({ loading, children, height, countValues, header }: TerminalConatinerProps) => {
+const TerminalConatiner = ({ loading, children, height, countValues, header, darkMode, setDarkMode, showButtons }: TerminalConatinerProps) => {
+  const [scroll, setScroll] = useState(true)
+  const [fullHeight, setFullHeight] = useState(false)
 
+  const heightC = loading ? 'auto' : height && !fullHeight ? height : 'auto'
+  const overflow = scroll ? 'scroll' : 'hidden'
+  const backgroundColor = darkMode ? '#070119e6' : 'white'
+
+  const buttons = [{
+    icon: <IoMdSearch/>,
+    func: () => null
+  },{
+    icon: scroll ? <TiCancel /> : <PiMouseScroll/>,
+    func: () => setScroll(!scroll)
+  },{
+    icon: darkMode ? <MdLightMode/> : <MdDarkMode/>,
+    func: () => setDarkMode(!darkMode)
+  }, {
+    icon: fullHeight ? <FaAngleUp/> : <FaAngleDown /> ,
+    func: () => setFullHeight(!fullHeight)
+  }]
+  
   return (
-    <Box border='1px solid lightGrey' mb={5}>
+    <Box className='full-container'>
 
       <Box display='flex' justifyContent='space-between' alignItems='center' p={4}>
         <Heading size='md'>{header}</Heading>
@@ -27,8 +56,11 @@ const TerminalConatiner = ({ loading, children, height, countValues, header }: T
         </Box>}
       </Box>
           
-
-      <Box className='terminal-container' height={loading ? 'auto' : height ? height : 'auto'}>
+      <Box className='terminal-container'
+        backgroundColor={backgroundColor}
+        overflow={overflow}
+        height={heightC}>
+        
         {loading ?
           <Box className='loader-container'>
             <ClipLoader
@@ -38,9 +70,13 @@ const TerminalConatiner = ({ loading, children, height, countValues, header }: T
               data-testid="loader"
             />
           </Box>
-          :
-          children}
+          : children}
       </Box>
+
+      {showButtons && <Box display='flex' justifyContent='end'>
+        {buttons.map(({ func, icon }, i) =>
+          <Button key={i} className='button' onClick={func} size='sx'> {icon}</Button>)}
+      </Box>}
     </Box>
   )
 }

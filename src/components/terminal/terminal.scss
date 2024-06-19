@@ -1,14 +1,20 @@
 @import '../../app.scss';
 
+
+.full-container {
+  border: 2px solid lightgray;
+  margin-bottom: 1.25rem;
+  background-color: white;
+}
+
 .terminal-container {
   overflow: scroll;
   border: 1px solid black;
-  // background-color: rgba(255,255,255,0.7);
   padding: 10px;
   background-color: rgba(7, 1, 25, 0.9);
   color:white;
   border: 1px solid lightgrey;
-
+  word-break: break-all;
 }
 
 .loader-container {
@@ -18,3 +24,13 @@
   padding: 50px 0;
 }
 
+
+.button {
+  border: 0.5px solid lightgray;
+  border-top: 0;
+  border-bottom: 0;
+  padding:2px 5px;
+  border-radius: 0 !important;
+  background-color: transparent !important;
+  font-size: 0.9em;
+}

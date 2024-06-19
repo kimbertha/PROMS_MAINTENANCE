@@ -50,7 +50,6 @@ const Summary = ({  logFiles , server, instance }) => {
     <>
 
       <Box className='details' mb={5}>
-        <Heading size='md'>Details</Heading>
         {details.map(detail =>  
           <Box key={detail.header}>
             <Heading color='lightGrey' mt={2} size='xs'>{detail.header}</Heading>

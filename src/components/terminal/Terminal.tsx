@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box,Text } from '@chakra-ui/react'
 import Status from '../status/Status'
 import TerminalConatiner from './TerminalContainer'
@@ -10,11 +10,20 @@ interface TerminalInputProps {
   countValue?: string
   height?: string;
   status?: boolean
+  showButtons: boolean
 }
 
-const TerminalInput = ({ arr, titles, header, countValue, height, status }: TerminalInputProps) => {
+const TerminalInput = ({ arr, titles, header, countValue, height, status, showButtons = false }: TerminalInputProps) => {
+  const [darkMode, setDarkMode] = useState(true)
+  const color =  darkMode ? 'white' : 'black'
 
-  const colors = ['rgb(9, 175, 175)', 'rgb(9, 175, 175)', 'rgb(3, 116, 116)', 'rgb(149, 35, 149)', 'rgb(215, 197, 2)', 'white']
+  const colors = [
+    'rgb(9, 175, 175)',
+    'rgb(9, 175, 175)',
+    'rgb(3, 116, 116)',
+    'rgb(149, 35, 149)',
+    'rgb(215, 197, 2)',
+    color]
 
   const counts = {}
   if (countValue) {
@@ -24,7 +33,14 @@ const TerminalInput = ({ arr, titles, header, countValue, height, status }: Term
   }
 
   return (
-    <TerminalConatiner header={header} countValues={countValue && counts} height={height} >
+    <TerminalConatiner
+      darkMode={darkMode}
+      setDarkMode={setDarkMode}
+      header={header}
+      countValues={countValue && counts}
+      height={height}
+      showButtons={showButtons}>
+      
       {arr?.map((val, i) =>
         <Box display='flex' key={i}>
 
@@ -34,7 +50,8 @@ const TerminalInput = ({ arr, titles, header, countValue, height, status }: Term
                 pt='7px'
                 status={val.status === 'ERROR' ? false : true} />}
             
-          {typeof val === 'string' ? val :
+          {typeof val === 'string' ?
+            <p style={{ color }}>{val}</p> :
             <p>{titles.map((title, i) =>
               <Text
                 key={i}
@@ -43,10 +60,10 @@ const TerminalInput = ({ arr, titles, header, countValue, height, status }: Term
                 style={{ color: colors[i] || 'white' }} >
                 {val[title]}
               </Text>)}</p>}
-          
         </Box>
         
       )}
+
     </TerminalConatiner>
   )
 }
