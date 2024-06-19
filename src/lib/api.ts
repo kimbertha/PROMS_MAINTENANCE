@@ -30,7 +30,8 @@ export const dataObj = [
     },{
       id: 'demo',
       title: 'Demo',
-      api: false
+      api: false,
+      backupId: 'test'
     },
     {
       id: 'template',

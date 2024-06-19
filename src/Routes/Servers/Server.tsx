@@ -6,7 +6,7 @@ import { constructDsArray, getMemoryValues } from '../../lib/functions/functions
 import { cap, strToNum } from '../../lib/functions/helpers'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
-import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
+// import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
 import { apiCaller } from '../../lib/hooks'
 
 const Server = () => {
@@ -50,16 +50,16 @@ const Server = () => {
 
       <Box>
         <Heading>Server Logs</Heading>
-        <TerminalConatiner loading={serverLogs.loading} height='60vh'>
-          {serverLogs.data && serverLogs?.data.map((log, i) => <p key={i}>{log}</p>)}
-        </TerminalConatiner>
+        {/* <TerminalConatiner loading={serverLogs.loading} height='60vh'> */}
+        {serverLogs.data && serverLogs?.data.map((log, i) => <p key={i}>{log}</p>)}
+        {/* </TerminalConatiner> */}
       </Box>
 
       <Box>
         <Heading>Disk Split</Heading>
-        <TerminalConatiner loading={memory.loading} height='60vh'>
-          {diskSplit.data && diskSplit?.data.map((log, i) => <p key={i}>{log}</p>)}
-        </TerminalConatiner>
+        {/* <TerminalConatiner loading={memory.loading} height='60vh'> */}
+        {diskSplit.data && diskSplit?.data.map((log, i) => <p key={i}>{log}</p>)}
+        {/* </TerminalConatiner> */}
       </Box>
       
       {memory.data &&

@@ -5,14 +5,16 @@ import { strToNum, constructObject } from './helpers'
 
 //DS ARRAY
 export const constructDsArray = (dsArray) => {
-  return  constructObject(dsArray, ['fileSystem', 'size', 'used', 'avail', 'use', 'mountedOn'])
+  return dsArray.map(obj => constructObject(obj, ['fileSystem', 'size', 'used', 'avail', 'use', 'mountedOn']))
     .filter(drive => drive.fileSystem.includes('/dev') && strToNum(drive.use) >= 0)
-    .sort((a, b) => strToNum(b.use) - strToNum(a.use)) 
+    .sort((a, b) => strToNum(b.use) - strToNum(a.use))
+  
+  
 }
 
 // MEMORY
 export const getMemoryValues = (memory) => {
-  const memoryValues = constructObject([memory[1]], ['total', 'used'], [1, 2])[0]
+  const memoryValues = constructObject(memory[1], ['total', 'used'], [1, 2])
   return `${memoryValues?.used}/${memoryValues?.total} GB`
 }
 
@@ -26,7 +28,11 @@ export const getCronFreq = (cronArr, instance, date) => {
   const path =  cronArr.filter(val => val.includes('sudo -u postgres pg_dump -U postgres') && val.includes(instance))[0]
   if (path) {
     const freq = path.split(' ')[0].replace('@', '')
-    return {  path: freq, check: date.isBetween(dates[freq], moment()) }
+    if (freq === 'daily') {
+      return { path: freq, check: date.startOf('day').isSame(dates.daily.startOf('day')) || date.startOf('day').isSame(moment().startOf('day')) }
+    } else {
+      return { path: freq, check: date.isBetween(dates[freq], moment()) }
+    }
   } 
 }
 
@@ -43,7 +49,7 @@ export const isolateBackups = (backupValues, instance) => {
 export const getLastBackup = (backupValues, instance) => {
   const isolated = isolateBackups(backupValues, instance)
   if (isolated) {
-    const constructObj = constructObject(isolated, ['size', 'name'], [4, 8])
+    const constructObj = isolated.map(obj => constructObject(obj, ['size', 'name'], [4, 8]))
     const withDate = constructObj.map(val => ({ ...val, date: moment(val.name.replace(/\D/g, '').slice(0, 8)) }))
       .filter(val => val.date._isValid)
       .sort((a, b) => (b.date).diff(a.date))

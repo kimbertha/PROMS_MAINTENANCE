@@ -40,7 +40,6 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
     field: cronFreq && <span style={{ color: cronFreq?.check ? 'green' : 'red' }}>{cronFreq?.path}</span>
   }]
 
-  console.log(instance)
 
   return (
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
