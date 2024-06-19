@@ -24,22 +24,19 @@ const Overview = () => {
     || server.title.toLowerCase().includes(searchValue.toLowerCase()))
     : serverData
   
-
   const constructData = async () => {
     const obj = await Promise.all(dataObj.map(async server => 
-      server && ({
-        ...server, instances:
-          await Promise.all(server.instances.map(async instance => {
-            try {
-              const req = (await axios.get(dataURL(server.id, instance.api ?  instance.id : server.main), headers)).data
-              return { ...instance, ...req, dsArray: constructDsArray(req.dsArray) }
-              
-            } catch (err) {
-              console.log(err)
-              return { ...instance, error: err.message }
-            }
+      server && ({ ...server,
+        instances: await Promise.all(server.instances.map(async instance => {
+          try {
+            const req = (await axios.get(dataURL(server.id, instance.api ?  instance.id : server.main), headers)).data
+            return { ...instance, ...req, dsArray: constructDsArray(req.dsArray) }
+          } catch (err) {
+            console.log(err)
+            return { ...instance, error: err.message }
+          }
           
-          }))
+        }))
       })
     ))
     setServerData(obj)

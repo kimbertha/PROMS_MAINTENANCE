@@ -1,9 +1,9 @@
 import React from 'react'
 import {  Box  } from '@chakra-ui/react'
-import { constructObject } from '../../lib/functions/helpers'
-import Terminal from '../../components/terminal/Terminal'
+import { constructObject } from '../../../lib/functions/helpers'
+import Terminal from '../../../components/terminal/Terminal'
 
-const LogFiles = ({ logFiles }) => {
+const LogFiles = ({ logFiles, height = 'auto' }) => {
 
   const titles = ['date', 'time', 'thread','status', 'location','undefined']
   
@@ -12,7 +12,13 @@ const LogFiles = ({ logFiles }) => {
     
   return (
     <Box>
-      <Terminal titles={titles} arr={ data} header='LogFiles' countValue='status'/>
+      <Terminal
+        titles={titles}
+        arr={data}
+        header='LogFiles'
+        countValue='status'
+        height={height}
+        status={true} />
     </Box>
   )
 }

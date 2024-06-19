@@ -3,19 +3,18 @@ import axios from 'axios'
 import { useParams } from 'react-router-dom'
 import { Box, Heading,  Text } from '@chakra-ui/react'
 
-import { logFilesURL, pingURL } from '../../lib/api'
-import AuditLogs from './AuditLogs'
-import LogFiles from './LogFiles'
+import { pingURL } from '../../lib/api'
+import AuditLogs from './sections/AuditLogs'
+import LogFiles from './sections/LogFiles'
 import Status from '../../components/status/Status'
-import Cron from './Cron'
-import Backups from './Backups'
+import Backups from './sections/Backups'
 
-const Summary = ({ instance, logFiles , server }) => {
-  const { server: serverURL, instance: instanceURL } = useParams()
+const Summary = ({  logFiles , server, instance }) => {
+  const { server: serverURL } = useParams()
   const [pingStatus, setPingStatus] = useState(false)
 
   const pingInstance = async () => {
-    const res = await axios.get(pingURL(serverURL, instanceURL))
+    const res = await axios.get(pingURL(serverURL, instance.id))
     setPingStatus(res.status === 200 ? true : false)
   }
 
@@ -28,7 +27,7 @@ const Summary = ({ instance, logFiles , server }) => {
       header: 'URL',
       component: <Box display='flex' alignContent='center' alignItems='center'>
         <Status status={pingStatus} />
-        <a href={pingURL(serverURL, instanceURL)}><Text>{pingURL(serverURL, instanceURL).split('/#')[0]}</Text></a>
+        <a href={pingURL(serverURL, instance.id)}><Text>{pingURL(serverURL, instance.id).split('/#')[0]}</Text></a>
       </Box>
     },
     {
@@ -49,25 +48,21 @@ const Summary = ({ instance, logFiles , server }) => {
 
   return (
     <>
-        
-      <Box display='flex'>
-        <Box display='flex' flexDirection='column'>
-          <Heading size='md'>Details</Heading>
-          <Box className='details' flexGrow={1}>
-            {details.map(detail =>  
-              <Box key={detail.header}>
-                <Heading color='lightGrey' mt={2} size='xs'>{detail.header}</Heading>
-                {detail.component ? detail.component : <Text>{instance?.[detail.id]}</Text>}
-              </Box>
-            )}
+
+      <Box className='details' mb={5}>
+        <Heading size='md'>Details</Heading>
+        {details.map(detail =>  
+          <Box key={detail.header}>
+            <Heading color='lightGrey' mt={2} size='xs'>{detail.header}</Heading>
+            {detail.component ? detail.component : <Text>{server?.[detail.id]}</Text>}
           </Box>
-        </Box>
-        <AuditLogs auditLogs={server?.auditLogs} />
+        )}
       </Box>
-      
-      <LogFiles logFiles={logFiles}/>
-      {instance && <Cron instance={instance} />}
-      <Backups instance={instanceURL} server={serverURL} backups={server?.backupArray} />
+
+
+      {instance.api && <AuditLogs auditLogs={server?.auditLogs} />}
+      <LogFiles logFiles={logFiles} height='60vh'/>
+      <Backups instance={instance} backups={server?.backupArray} />
 
     </>
     

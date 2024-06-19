@@ -8,6 +8,7 @@ import { TbMailExclamation } from 'react-icons/tb'
 import { getPing } from '../../../lib/hooks'
 import { pingURL } from '../../../lib/api'
 import { getCronFreq, getLastBackup, getLastLogin } from '../../../lib/functions/functions'
+import { cap } from '../../../lib/functions/helpers'
 import moment from 'moment'
 
 interface InstanceUnitProps {
@@ -37,7 +38,7 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   },
   {
     title: 'Backup Freq',
-    field: cronFreq && <span style={{ color: cronFreq?.check ? 'green' : 'red' }}>{cronFreq?.path}</span>
+    field: cronFreq && <span style={{ color: cronFreq?.check ? 'green' : 'red' }}>{cap(cronFreq?.path)}</span>
   }]
 
 
@@ -45,7 +46,6 @@ const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
     <Box className='instance-container' style={{ borderTop: `20px solid ${border}` }}>
 
       <Box className='xsb' mb={1}>
-    
         <Status status={!instance.error} title={instance.title} />
         <Box display='flex' alignItems='center'>
           <a href={pingURL(server, instance.id)}>

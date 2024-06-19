@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { dataURL, serverDiskSplitURL, serverLogFilesURL, serverMemoryUrl } from '../../lib/api'
 import { Box, Heading, Text } from '@chakra-ui/react'
@@ -6,7 +6,6 @@ import { constructDsArray, getMemoryValues } from '../../lib/functions/functions
 import { cap, strToNum } from '../../lib/functions/helpers'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
-// import TerminalConatiner from '../../components/terminal-container/TerminalContainer'
 import { apiCaller } from '../../lib/hooks'
 
 const Server = () => {

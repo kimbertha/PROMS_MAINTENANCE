@@ -9,8 +9,8 @@ export const headers = {
 //instance URLS
 export const dataURL = (server : string, instance:string ) => `https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpaneldata`
 export const pingURL = (server: string, instance: string) => `https://${server}.radleypropertysolutions.com/${instance}/#userlogin.jsp`
-// export const logFilesURL = (server: string, instance: string) =>`https://${server}.radleypropertysolutions.com/test/promsrest/getmpanellogfile/${instance}`
-export const logFilesURL = (server: string, instance: string) =>`https://${server}.radleypropertysolutions.com/test/promsrest/getmpanellogfile/${instance}`
+export const logFilesURL = (server: string, instance: string) => `https://${server}.radleypropertysolutions.com/test/promsrest/getmpanellogfile/${instance}`
+
 //server URLS
 export const serverLogFilesURL = (server: string, instance: string) => `https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpanellogfile/catalina`
 export const serverDiskSplitURL = (server: string, instance: string) => ` https://${server}.radleypropertysolutions.com/${instance}/promsrest/getmpanellogfile/disksplit`

@@ -13,7 +13,8 @@ interface TerminalConatinerProps {
 const TerminalConatiner = ({ loading, children, height, countValues, header }: TerminalConatinerProps) => {
 
   return (
-    <Box border='1px solid lightGrey'>
+    <Box border='1px solid lightGrey' mb={5}>
+
       <Box display='flex' justifyContent='space-between' alignItems='center' p={4}>
         <Heading size='md'>{header}</Heading>
 

@@ -110,9 +110,3 @@ $headerHeight: 50px;
     margin: 0 1px;
   }
 }
-
-
-.server-logs-container{ 
-  @extend .term-container;
-  height: 50vh;
-}

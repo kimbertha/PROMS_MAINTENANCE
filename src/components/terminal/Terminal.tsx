@@ -9,9 +9,10 @@ interface TerminalInputProps {
   header: string;
   countValue?: string
   height?: string;
+  status?: boolean
 }
 
-const TerminalInput = ({ arr, titles, header, countValue, height }: TerminalInputProps) => {
+const TerminalInput = ({ arr, titles, header, countValue, height, status }: TerminalInputProps) => {
 
   const colors = ['rgb(9, 175, 175)', 'rgb(9, 175, 175)', 'rgb(3, 116, 116)', 'rgb(149, 35, 149)', 'rgb(215, 197, 2)', 'white']
 
@@ -23,31 +24,30 @@ const TerminalInput = ({ arr, titles, header, countValue, height }: TerminalInpu
   }
 
   return (
-    <Box>
-      <TerminalConatiner header={header} countValues={countValue && counts} height={height}>
-        {arr?.map((val, i) =>
-          <Box display='flex' key={i}>
-            {typeof val !== 'string' &&
+    <TerminalConatiner header={header} countValues={countValue && counts} height={height} >
+      {arr?.map((val, i) =>
+        <Box display='flex' key={i}>
+
+          {status && typeof val !== 'string' &&
               <Status
                 alignItems='start'
                 pt='7px'
                 status={val.status === 'ERROR' ? false : true} />}
             
-            {typeof val === 'string' ? val :
-              <p>{titles.map((title, i) =>
-                <Text
-                  key={i}
-                  as='span'
-                  mr={2}
-                  style={{ color: colors[i] || 'white' }} >
-                  {val[title]}
-                </Text>)}</p>}
+          {typeof val === 'string' ? val :
+            <p>{titles.map((title, i) =>
+              <Text
+                key={i}
+                as='span'
+                mr={2}
+                style={{ color: colors[i] || 'white' }} >
+                {val[title]}
+              </Text>)}</p>}
           
-          </Box>
+        </Box>
         
-        )}
-      </TerminalConatiner>
-    </Box>
+      )}
+    </TerminalConatiner>
   )
 }
 

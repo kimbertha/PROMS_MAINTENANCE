@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Heading } from '@chakra-ui/react'
-import { colors } from '../../lib/vars'
-import AGGrid from '../../components/AGGrid/AGGrid'
+import { colors } from '../../../lib/vars'
+import AGGrid from '../../../components/AGGrid/AGGrid'
 
 const AuditLogs = ({ auditLogs }) => {
   if (!auditLogs) return null
@@ -31,10 +31,9 @@ const AuditLogs = ({ auditLogs }) => {
   
   return (
 
-    <Box className='audits-container' flexGrow={1} mx={2}>
-      <Heading size='md'>Audit Logs</Heading>
+    <Box mb={5} border='1px solid lightGrey'>
+      <Heading p={4} size='md'>Audit Logs</Heading>
       <AGGrid rows={auditLogs} columns={AGGridCols} />
-
     </Box>
       
 
