@@ -1,18 +1,20 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
-import { Box, Heading } from '@chakra-ui/react'
+import { Box, Heading, Text } from '@chakra-ui/react'
 import { dataURL, logFilesURL, dataObj } from '../../lib/api'
 import { cap } from '../../lib/functions/helpers'
-import { TbMailExclamation } from 'react-icons/tb'
 import { apiCaller } from '../../lib/hooks'
-
 import TabsMenu from '../../components/page-menu/TabsMenu'
 import Backups from './sections/Backups'
 import AuditLogs from './sections/AuditLogs'
 import Summary from './Summary'
 import LogFiles from './sections/LogFiles'
+import Status from '../../components/status/Status'
+import { TbMailExclamation } from 'react-icons/tb'
+
 
 import './instance.scss'
+import BackButton from '../../components/BackButton/BackButton'
 
 const Instance = () => {
   const { server: serverURL, instance: instanceURL } = useParams()
@@ -22,6 +24,7 @@ const Instance = () => {
 
   const server = apiCaller(dataURL(serverURL,  instance.api ? instanceURL : dataObj[i].main )).data
   const logFiles = apiCaller(logFilesURL(serverURL, instanceURL))
+
   
   const tabElements = [
     {
@@ -44,15 +47,17 @@ const Instance = () => {
 
   return (
     <Box className='container'>
-      <Box display='flex' justifyContent='space-between' alignItems='center'>
+      <BackButton/>
+      <Box display='flex' justifyContent='space-between' alignItems='center' pt={5} pb={10}>
+
         <Box>
-          <Heading size='lg'>{cap(serverURL)} {cap(instanceURL)}</Heading>
+          <Status status={server} title={`${cap(serverURL)} ${cap(instanceURL)}`} size='lg'/>
           <small>PROMS maintenance panel</small>
         </Box>
-        <TbMailExclamation size='1.5em' />
+        {/* <TbMailExclamation size='1.5em' /> */}
       </Box>
 
-      <TabsMenu my={10}
+      <TabsMenu
         tabs={instance.api ? tabElements : tabElements.filter((x, i) => i !== 1)}
       />
     </Box>

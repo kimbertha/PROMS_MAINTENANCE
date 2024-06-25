@@ -1,5 +1,5 @@
 .container {
-padding: 30px;
+padding: 50px;
 }
 
 .details {
@@ -19,4 +19,8 @@ padding: 30px;
   margin: 0 5px;
   color: white;
   font-weight: 400;
+}
+
+.chakra-tabs__tab-panel {
+  padding: 20px 0 !important; 
 }

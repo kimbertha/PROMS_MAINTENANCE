@@ -60,17 +60,7 @@ const TerminalConatiner = ({ loading, children, height, countValues, header, dar
         backgroundColor={backgroundColor}
         overflow={overflow}
         height={heightC}>
-        
-        {loading ?
-          <Box className='loader-container'>
-            <ClipLoader
-              color='lightGrey'
-              size={100}
-              aria-label="Loading Spinner"
-              data-testid="loader"
-            />
-          </Box>
-          : children}
+        {children}
       </Box>
 
       {showButtons && <Box display='flex' justifyContent='end'>

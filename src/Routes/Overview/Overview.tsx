@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import axios from 'axios'
 import { constructDsArray } from '../../lib/functions/functions'
 import { headers, dataObj, dataURL } from '../../lib/api'
@@ -64,11 +64,15 @@ const Overview = () => {
         setSearchValue={setSearchValue}
       />
 
-      <Box className='content' display={displayClass} flexGrow={1}>
+      <Box className='content' display={displayClass} flexGrow={1} height='100%'>
         {filtered.map(server =><Box key={server.title} display='flex'>
           <ServerUnit server={server} serverMode={serverMode} />
 
-          {!serverMode && <Box overflow='scroll' display='flex'>
+          {/* <Box border='1px solid lightgrey' my={5} mx={3}>
+            <Box/>
+          </Box> */}
+          
+          {!serverMode && <Box overflow='scroll' display='flex' alignItems='center'>
             {server.instances.map(instance => 
               <InstanceUnit server={server.id} instance={instance}  key={instance.id}/>
             )}

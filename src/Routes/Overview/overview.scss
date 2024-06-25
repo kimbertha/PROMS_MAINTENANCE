@@ -54,11 +54,12 @@ $headerHeight: 50px;
 }
 
 
+
 %unit-container {
   display: flex;
   flex-direction: column;
   width: $unitWidth;
-  height: calc(100vh/3.8);
+  height: calc(100vh/4);
   background-color: white;
   border: 2px solid grey;
   border-top: 20px solid  rgb(36, 36, 36);
@@ -109,4 +110,12 @@ $headerHeight: 50px;
     font-weight: 400 !important;
     margin: 0 1px;
   }
+}
+
+
+.line {
+  width: 20px;
+  height: 100%;
+  background-color: lightgray;
+  border: 2px solid red;
 }

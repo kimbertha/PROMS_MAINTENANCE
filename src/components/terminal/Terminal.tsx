@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Box,Text } from '@chakra-ui/react'
 import Status from '../status/Status'
 import TerminalConatiner from './TerminalContainer'
+import { ClipLoader } from 'react-spinners'
 
 interface TerminalInputProps {
   arr: any[];
@@ -10,10 +11,11 @@ interface TerminalInputProps {
   countValue?: string
   height?: string;
   status?: boolean
-  showButtons: boolean
+  showButtons?: boolean;
+  loading?: boolean;
 }
 
-const TerminalInput = ({ arr, titles, header, countValue, height, status, showButtons = false }: TerminalInputProps) => {
+const Terminal = ({ arr, titles, header, countValue, height, status, showButtons = false, loading }: TerminalInputProps) => {
   const [darkMode, setDarkMode] = useState(true)
   const color =  darkMode ? 'white' : 'black'
 
@@ -41,31 +43,39 @@ const TerminalInput = ({ arr, titles, header, countValue, height, status, showBu
       height={height}
       showButtons={showButtons}>
       
-      {arr?.map((val, i) =>
-        <Box display='flex' key={i}>
-
-          {status && typeof val !== 'string' &&
-              <Status
-                alignItems='start'
-                pt='7px'
-                status={val.status === 'ERROR' ? false : true} />}
-            
-          {typeof val === 'string' ?
-            <p style={{ color }}>{val}</p> :
-            <p>{titles.map((title, i) =>
-              <Text
-                key={i}
-                as='span'
-                mr={2}
-                style={{ color: colors[i] || 'white' }} >
-                {val[title]}
-              </Text>)}</p>}
+      {loading ?
+        <Box className='loader-container'>
+          <ClipLoader
+            color='lightGrey'
+            size={100}
+            aria-label="Loading Spinner"
+            data-testid="loader"
+          />
         </Box>
-        
-      )}
-
+        :  arr?.map((val, i) =>
+          <Box display='flex' key={i}>
+  
+            {status && typeof val !== 'string' &&
+                <Status
+                  alignItems='start'
+                  pt='7px'
+                  status={val.status === 'ERROR' ? false : true} />}
+              
+            {typeof val === 'string' ?
+              <p style={{ color }}>{val}</p> :
+              <p>{titles.map((title, i) =>
+                <Text
+                  key={i}
+                  as='span'
+                  mr={2}
+                  style={{ color: colors[i] || 'white' }} >
+                  {val[title]}
+                </Text>)}</p>}
+          </Box>
+          
+        )}
     </TerminalConatiner>
   )
 }
 
-export default TerminalInput
+export default Terminal

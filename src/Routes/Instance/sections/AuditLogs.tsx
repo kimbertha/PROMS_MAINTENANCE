@@ -31,7 +31,7 @@ const AuditLogs = ({ auditLogs }) => {
   
   return (
 
-    <Box mb={5} border='1px solid lightGrey'>
+    <Box border='1px solid lightGrey' backgroundColor='white'>
       <Heading p={4} size='md'>Audit Logs</Heading>
       <AGGrid rows={auditLogs} columns={AGGridCols} />
     </Box>

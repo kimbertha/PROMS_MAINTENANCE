@@ -7,6 +7,7 @@ import { cap, strToNum } from '../../lib/functions/helpers'
 import { dataObj } from '../../lib/api'
 import AGGrid from '../../components/AGGrid/AGGrid'
 import { apiCaller } from '../../lib/hooks'
+import Terminal from '../../components/terminal/Terminal'
 
 const Server = () => {
   const { server: serverId } = useParams()
@@ -47,26 +48,32 @@ const Server = () => {
       <Heading>{cap(serverId)}</Heading>
       {server.data && <AGGrid rows={constructDsArray(server.data.dsArray)} columns={tableCols} pagination={false} />}
 
-      <Box>
-        <Heading>Server Logs</Heading>
-        {/* <TerminalConatiner loading={serverLogs.loading} height='60vh'> */}
-        {serverLogs.data && serverLogs?.data.map((log, i) => <p key={i}>{log}</p>)}
-        {/* </TerminalConatiner> */}
-      </Box>
-
-      <Box>
-        <Heading>Disk Split</Heading>
-        {/* <TerminalConatiner loading={memory.loading} height='60vh'> */}
-        {diskSplit.data && diskSplit?.data.map((log, i) => <p key={i}>{log}</p>)}
-        {/* </TerminalConatiner> */}
-      </Box>
-      
       {memory.data &&
         <Box>
           <Heading>Memory</Heading>
           <Text>{getMemoryValues(memory.data)}</Text>
         </Box>
       }
+      <Terminal
+        arr={serverLogs?.data}
+        titles={['string']}
+        header='Server Logs'
+        height='40vh'
+        status={true}
+        showButtons={true}
+        loading={serverLogs.loading } />
+      
+      <Terminal
+        arr={diskSplit?.data}
+        titles={['string']}
+        header='Disk Split'
+        height='40vh' />
+      
+      {/* <Terminal
+        arr={server?.data.cronArray}
+        titles={['string']}
+        header=''
+        height='40vh'/> */}
 
       <Box>
         <Heading>CRON</Heading>

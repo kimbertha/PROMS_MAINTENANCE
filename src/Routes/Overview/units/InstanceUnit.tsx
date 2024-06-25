@@ -18,7 +18,7 @@ interface InstanceUnitProps {
 
 const InstanceUnit = ({ instance, server }: InstanceUnitProps) => {
   const navigate = useNavigate()
-  const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : 'rgba(36, 36, 36, 0.9)'
+  const border = instance.error ? 'rgba(222, 15, 15, 0.8)' : ' rgba(56, 56, 56, 0.8)'
   const { pingStatus } = getPing(server, instance.id)
 
   const backup = instance.backupArray && getLastBackup(instance.backupArray, instance.backupId) || null

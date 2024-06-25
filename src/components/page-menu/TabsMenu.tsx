@@ -2,7 +2,7 @@ import React from 'react'
 import { Tabs, TabList, TabPanels, Tab, TabPanel  } from '@chakra-ui/react'
 
 const TabsMenu = ({ tabs, ...others }) => {
-  console.log(tabs)
+
   return (
     <Tabs {...others}  variant='enclosed'>
       <TabList>
